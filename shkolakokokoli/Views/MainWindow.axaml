@@ -60,13 +60,6 @@
                     </Grid>                  
                     <StackPanel Background="Beige" Margin="0, 10, 0, 10" Orientation="Vertical" HorizontalAlignment="Left" x:Name="clientsGrid" Grid.Row="1">
 						<ListBox x:Name="clientsBox">
-							<ListBox.Items>
-								<ListBoxItem Width="400" Height="100"></ListBoxItem>
-								<ListBoxItem Width="400" Height="100"></ListBoxItem>
-								<ListBoxItem Width="400" Height="100"></ListBoxItem>
-								<ListBoxItem Width="400" Height="100"></ListBoxItem>
-								<ListBoxItem Width="400" Height="100"></ListBoxItem>
-							</ListBox.Items>
 						</ListBox>
 					</StackPanel>
                 </Grid>

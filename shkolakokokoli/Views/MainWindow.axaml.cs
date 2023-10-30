@@ -17,7 +17,7 @@ public partial class MainWindow : Window
         deleteClientButton.Click += delegate { DeleteClient(0); };
 
         ClientUserControl ctrl = new ClientUserControl(new Client(0, "4", "sad", 454, DateTime.Now, "4", "3", "3"));
-        //clientsBox.Items.Add(ctrl);
+        clientsBox.Items.Add(ctrl);
 
     }
 
