@@ -2,6 +2,7 @@
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using shkolakokokoli.Models;
 using SkiaSharp;
 
 namespace shkolakokokoli.ViewModels;

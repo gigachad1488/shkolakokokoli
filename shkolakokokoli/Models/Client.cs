@@ -1,6 +1,6 @@
 using System;
 
-namespace shkolakokokoli;
+namespace shkolakokokoli.Models;
 
 public class Client
 {
@@ -14,9 +14,9 @@ public class Client
     public string languageNeeds { get; set; }
 
     public Client()
-    {}
+    { }
 
-public Client(int id, string firstname, string surName, int phone, DateTime birthday, string lastLanguage, string languageLevel, string languageNeeds)
+    public Client(int id, string firstname, string surName, int phone, DateTime birthday, string lastLanguage, string languageLevel, string languageNeeds)
     {
         this.id = id;
         this.firstname = firstname;

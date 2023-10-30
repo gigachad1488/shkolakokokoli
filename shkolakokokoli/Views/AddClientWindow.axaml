@@ -24,15 +24,15 @@
                 </Grid>
                 <Grid Grid.Row="2" Height="40" Margin="15, 20, 15, 0" ColumnDefinitions="Auto, *">
                         <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Имя*:</TextBlock>
-                        <TextBox FontSize="11" x:Name="firstNameText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
+                        <TextBox TextAlignment="Start" FontSize="10" x:Name="firstNameText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
                 </Grid>
                 <Grid Grid.Row="3" Height="40" Margin="15, 5, 15, 0" ColumnDefinitions="Auto, *">
                         <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Фамилия*:</TextBlock>
-                        <TextBox FontSize="11" x:Name="surNameText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
+                        <TextBox TextAlignment="Start" FontSize="10" x:Name="surNameText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
                 </Grid>
                 <Grid Grid.Row="4" Height="40" Margin="15, 5, 15, 0" ColumnDefinitions="Auto, *">
                         <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Телефон*:</TextBlock>
-                        <TextBox FontSize="11" x:Name="phoneText" Grid.Column="1" Width="120" MaxLength="12" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
+                        <TextBox TextAlignment="Start" FontSize="10" x:Name="phoneText" Grid.Column="1" Width="120" MaxLength="12" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
                 </Grid>
                 <Grid Grid.Row="5" Height="40" Margin="15, 5, 15, 0" ColumnDefinitions="Auto, *">
                         <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Дата рождения*:</TextBlock>
@@ -41,15 +41,15 @@
                 <TextBlock Margin="15, 25, 0, 5" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Дополнительная информация</TextBlock>
                 <Grid Grid.Row="7" Height="40" Margin="15, 5, 15, 0" ColumnDefinitions="Auto, *">
                         <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Прошлый язык:</TextBlock>
-                        <TextBox FontSize="11" x:Name="lastLangText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
+                        <TextBox TextAlignment="Start" FontSize="10" x:Name="lastLangText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
                 </Grid>
                 <Grid Grid.Row="8" Height="40" Margin="15, 5, 15, 0" ColumnDefinitions="Auto, *">
                         <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Уровень языка:</TextBlock>
-                        <TextBox FontSize="11" x:Name="langLevelText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
+                        <TextBox TextAlignment="Start" FontSize="10" x:Name="langLevelText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
                 </Grid>
                 <Grid Grid.Row="9" Height="40" Margin="15, 5, 15, 20" ColumnDefinitions="Auto, *">
                         <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Потребность языка:</TextBlock>
-                        <TextBox FontSize="11" x:Name="langNeedsText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
+                        <TextBox TextAlignment="Start" FontSize="10" x:Name="langNeedsText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
                 </Grid>
         </Grid>
 </Window>

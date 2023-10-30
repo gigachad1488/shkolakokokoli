@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using shkolakokokoli.Models;
 
 namespace shkolakokokoli;
 
@@ -41,5 +42,10 @@ public static class Db
         commang.Parameters.AddWithValue("@ln", client.languageNeeds);
         commang.ExecuteNonQuery();
         connection.Close();
+    }
+
+    public static void ChangeClient(Client client)
+    {
+
     }
 }

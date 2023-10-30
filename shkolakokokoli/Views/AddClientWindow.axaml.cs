@@ -2,11 +2,13 @@ using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using shkolakokokoli.Models;
 
 namespace shkolakokokoli.Views;
 
 public partial class AddClientWindow : Window
 {
+ 
     public AddClientWindow()
     {
         InitializeComponent();
@@ -15,14 +17,54 @@ public partial class AddClientWindow : Window
         cancelButton.Click += delegate { Close(null); }; 
     }
 
+    public AddClientWindow(Client client)
+    {
+        InitializeComponent();
+
+        addButton.Click += delegate { ChangeClient(); };
+        cancelButton.Click += delegate { Close(null); };
+
+        firstNameText.Text = client.firstname;
+        surNameText.Text = client.surName;
+        phoneText.Text = client.phone.ToString();
+        datePicker.SelectedDate = client.birthday;
+        lastLangText.Text = client.lastLanguage;
+        langLevelText.Text = client.languageLevel;
+        langNeedsText.Text = client.languageNeeds;
+    }
+
+    private void ChangeClient()
+    {
+        Client client = GetData();
+        if (client == null)
+        {
+            return;
+        }
+
+        Db.ChangeClient(client);
+        Close(null);
+    }
+
     private void AddClient()
+    {
+        Client client = GetData();
+        if (client == null) 
+        {
+            return;
+        }
+
+        Db.AddClient(client);
+        Close(null);
+    }
+
+    private Client GetData()
     {
         Client client = new Client();
         if (firstNameText.Text == string.Empty || surNameText.Text == string.Empty || phoneText.Text == string.Empty || datePicker.SelectedDate == null)
         {
-            return;
+            return null;
         }
-        
+
         client.firstname = firstNameText.Text;
         client.surName = surNameText.Text;
         client.phone = Convert.ToInt32(phoneText.Text);
@@ -31,7 +73,6 @@ public partial class AddClientWindow : Window
         client.lastLanguage = lastLangText.Text;
         client.languageLevel = langLevelText.Text;
         client.languageNeeds = langNeedsText.Text;
-        Db.AddClient(client);
-        Close(null);
+        return client;
     }
 }

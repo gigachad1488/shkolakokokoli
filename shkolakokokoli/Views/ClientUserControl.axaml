@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="650"
+			 Width="700"
+			 Height="50"
+			 BorderThickness="1"
+             x:Class="shkolakokokoli.Views.ClientUserControl">
+	<Grid ColumnDefinitions="*, *, *, *, *, *, *" Background="Bisque">
+		<TextBlock Grid.Column="0" x:Name="firstNameText" VerticalAlignment="Center" HorizontalAlignment="Center" >паша</TextBlock>
+		<TextBlock Grid.Column="1"  x:Name="surNameText" VerticalAlignment="Center" HorizontalAlignment="Center" >сашов</TextBlock>
+		<TextBlock Grid.Column="2"  x:Name="phoneText" VerticalAlignment="Center" HorizontalAlignment="Center" >88002553535</TextBlock>
+		<TextBlock Grid.Column="3"  x:Name="dateText" VerticalAlignment="Center" HorizontalAlignment="Center" >08.09.2021</TextBlock>
+		<TextBlock Grid.Column="4"  x:Name="lastLangText" VerticalAlignment="Center" HorizontalAlignment="Center" >англиски</TextBlock>
+		<TextBlock Grid.Column="5"  x:Name="langLevelText" VerticalAlignment="Center" HorizontalAlignment="Center" >б2</TextBlock>
+		<TextBlock Grid.Column="6"  x:Name="needLevelText" VerticalAlignment="Center" HorizontalAlignment="Center" >б228</TextBlock>
+	</Grid>
+</UserControl>

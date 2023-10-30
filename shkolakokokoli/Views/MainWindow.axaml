@@ -4,15 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		Width="850"
+		Height="500"
         x:Class="shkolakokokoli.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
         Icon="/Assets/2skuf2.ico"
         Title="shkolakokokoli">
     <Window.Styles>
-        <Style Selector="TabControl WrapPanel">
-            <Setter Property="Background" Value="#fbed9e"/>
-        </Style>
+		<Style Selector="TabControl WrapPanel">
+			<Setter Property="Background" Value="#fbed9e"/>
+		</Style>
 
     </Window.Styles>
 
@@ -41,31 +43,36 @@
                             <Button x:Name="addClientButton" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
                             </Button>
-                            <Button BorderThickness="1" BorderBrush="Black" Grid.Column="1" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="125" Margin="10, 5, 0, 5">
+                            <Button x:Name="redactClientButton" BorderThickness="1" BorderBrush="Black" Grid.Column="1" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="125" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Редактировать</TextBlock>
                             </Button>
-                            <Button BorderThickness="1" BorderBrush="Black" Grid.Column="2" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
+                            <Button x:Name="deleteClientButton" BorderThickness="1" BorderBrush="Black" Grid.Column="2" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Удалить</TextBlock>
                             </Button>
                             <Grid Grid.Column="3" ColumnDefinitions="*, Auto">
-                                <TextBox Grid.Column="0" BorderThickness="1" BorderBrush="Black" Watermark="Поиск" Width="200" Margin="20, 5, 0, 5" >
-                                
+                                <TextBox Grid.Column="0" BorderThickness="1" BorderBrush="Black" Watermark="Поиск" Width="200" Margin="20, 5, 0, 5" >                             
                                 </TextBox>
                                 <Button Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Width="30" VerticalAlignment="Stretch" Margin="-3, 5, 0, 5">
                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">☨</TextBlock>
                                 </Button>
-                            </Grid>
-                            
-                            
+                            </Grid>                                                
                         </Grid>
-                    </Grid>
-                    
-                    <Grid Grid.Row="1"></Grid>
+                    </Grid>                  
+                    <StackPanel Background="Beige" Margin="0, 10, 0, 10" Orientation="Vertical" HorizontalAlignment="Left" x:Name="clientsGrid" Grid.Row="1">
+						<ListBox x:Name="clientsBox">
+							<ListBox.Items>
+								<ListBoxItem Width="400" Height="100"></ListBoxItem>
+								<ListBoxItem Width="400" Height="100"></ListBoxItem>
+								<ListBoxItem Width="400" Height="100"></ListBoxItem>
+								<ListBoxItem Width="400" Height="100"></ListBoxItem>
+								<ListBoxItem Width="400" Height="100"></ListBoxItem>
+							</ListBox.Items>
+						</ListBox>
+					</StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Учитель">
-                <Grid  RowDefinitions="Auto, *">
-                    
+                <Grid  RowDefinitions="Auto, *">     
                         <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
                             <Button BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
@@ -87,8 +94,7 @@
                         </Grid>
                     <Grid Grid.Row="1"></Grid>
                 </Grid>
-            </TabItem>
-            
+            </TabItem>    
             <TabItem Header="Занятия">
                 <Grid  RowDefinitions="Auto, *">
                     <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
@@ -112,16 +118,12 @@
                     </Grid>
                     <Grid Grid.Row="1"></Grid>
                 </Grid>
-            </TabItem>
-            
-            
+            </TabItem>       
             <TabItem Header="Статистика">
                 <Grid>
                     <lvc:CartesianChart Background="Black" Series="{Binding Series}"></lvc:CartesianChart>
                 </Grid>
-            </TabItem>
-            
-            
+            </TabItem>         
             <TabItem Width="60" IsEnabled="False" HorizontalAlignment="Right">
                 <TabItem.Header>
                     <Image Source="../Assets/2skuf2.ico"></Image>
