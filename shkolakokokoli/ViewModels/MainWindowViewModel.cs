@@ -32,7 +32,8 @@ public class MainWindowViewModel : ViewModelBase
     {
         //ClientsView = new DataGridCollectionView(Clients);
         //ClientsView.Filter += 
-        RefreshClients();
+
+        //RefreshClients();
     }
     
     
