@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using shkolakokokoli.Models;
@@ -32,20 +33,40 @@ public static class Db
     public static void AddClient(Client client)
     {
         connection.Open();
-        MySqlCommand commang = new MySqlCommand("INSERT INTO Client (firstname, surname, phone, birthday, last_language, language_level, language_needs) VALUES (@fn, @sn, @ph, @dt, @ll, @lal, @ln)", connection);
-        commang.Parameters.AddWithValue("@fn", client.firstname);
-        commang.Parameters.AddWithValue("@sn", client.surName);
-        commang.Parameters.AddWithValue("@ph", client.phone);
-        commang.Parameters.AddWithValue("@dt", client.birthday);
-        commang.Parameters.AddWithValue("@ll", client.lastLanguage);
-        commang.Parameters.AddWithValue("@lal", client.languageLevel);
-        commang.Parameters.AddWithValue("@ln", client.languageNeeds);
-        commang.ExecuteNonQuery();
+        MySqlCommand command = new MySqlCommand("INSERT INTO Client (firstname, surname, phone, birthday, last_language, language_level, language_needs) VALUES (@fn, @sn, @ph, @dt, @ll, @lal, @ln)", connection);
+        command.Parameters.AddWithValue("@fn", client.firstname);
+        command.Parameters.AddWithValue("@sn", client.surName);
+        command.Parameters.AddWithValue("@ph", client.phone);
+        command.Parameters.AddWithValue("@dt", client.birthday);
+        command.Parameters.AddWithValue("@ll", client.lastLanguage);
+        command.Parameters.AddWithValue("@lal", client.languageLevel);
+        command.Parameters.AddWithValue("@ln", client.languageNeeds);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+
+    public static void DeleteClient(Client client)
+    {
+        connection.Open();
+        MySqlCommand command = new MySqlCommand("DELETE FROM Client WHERE id = @id", connection);
+        command.Parameters.AddWithValue("@id", client.id);
+        command.ExecuteNonQuery();
         connection.Close();
     }
 
     public static void ChangeClient(Client client)
     {
-
+        connection.Open();
+        MySqlCommand command = new MySqlCommand("UPDATE Client SET firstname = @fn, surname = @sn, phone = @ph, birthday = @dt, last_language = @ll, language_level = @lal, language_needs = @ln WHERE id = @id", connection);
+        command.Parameters.AddWithValue("@id", client.id);
+        command.Parameters.AddWithValue("@fn", client.firstname);
+        command.Parameters.AddWithValue("@sn", client.surName);
+        command.Parameters.AddWithValue("@ph", client.phone);
+        command.Parameters.AddWithValue("@dt", client.birthday);
+        command.Parameters.AddWithValue("@ll", client.lastLanguage);
+        command.Parameters.AddWithValue("@lal",client.languageLevel);
+        command.Parameters.AddWithValue("@ln", client.languageNeeds);
+        command.ExecuteNonQuery();
+        connection.Close();
     }
 }

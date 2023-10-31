@@ -13,10 +13,10 @@
         CanResize="False"
         Title="AddClientWindow">
         <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
-                <TextBlock Grid.Row="0" FontWeight="ExtraBold" FontSize="25" HorizontalAlignment="Center" Margin="0, 10, 0, 0">Добавление ученика</TextBlock>
+                <TextBlock x:Name="windowText" Grid.Row="0" FontWeight="ExtraBold" FontSize="25" HorizontalAlignment="Center" Margin="0, 10, 0, 0">Добавление ученика</TextBlock>
                 <Grid Grid.Row="1" Height="30" Margin="0, 30, 0, 0" ColumnDefinitions="Auto, Auto">
                         <Button x:Name="addButton" Grid.Column="0" Background="Gold" Width="120" BorderBrush="Black"  Margin="10, 0, 0, 0">
-                                <TextBlock HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">Добавить</TextBlock>
+                                <TextBlock x:Name="addButtonText" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">Добавить</TextBlock>
                         </Button>
                         <Button x:Name="cancelButton" Grid.Column="1" Background="WhiteSmoke" BorderBrush="Black" Width="120"  Margin="10, 0, 0, 0">
                                 <TextBlock HorizontalAlignment="Center" FontSize="15" VerticalAlignment="Center" FontWeight="Light">Отмена</TextBlock>

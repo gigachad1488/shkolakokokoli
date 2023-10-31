@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using shkolakokokoli.Models;
+using shkolakokokoli.ViewModels;
 
 namespace shkolakokokoli.Views;
 
@@ -12,7 +13,7 @@ public partial class AddClientWindow : Window
     public AddClientWindow()
     {
         InitializeComponent();
-
+        
         addButton.Click += delegate { AddClient(); }; 
         cancelButton.Click += delegate { Close(null); }; 
     }
@@ -21,7 +22,9 @@ public partial class AddClientWindow : Window
     {
         InitializeComponent();
 
-        addButton.Click += delegate { ChangeClient(); };
+        windowText.Text = "Изменение ученика";
+        addButtonText.Text = "Изменить";
+        addButton.Click += delegate { ChangeClient(client.id); };
         cancelButton.Click += delegate { Close(null); };
 
         firstNameText.Text = client.firstname;
@@ -33,14 +36,15 @@ public partial class AddClientWindow : Window
         langNeedsText.Text = client.languageNeeds;
     }
 
-    private void ChangeClient()
+    private void ChangeClient(int id)
     {
         Client client = GetData();
+        client.id = id;
         if (client == null)
         {
             return;
         }
-
+        
         Db.ChangeClient(client);
         Close(null);
     }
@@ -48,15 +52,16 @@ public partial class AddClientWindow : Window
     private void AddClient()
     {
         Client client = GetData();
+        
         if (client == null) 
         {
             return;
         }
-
+        
         Db.AddClient(client);
         Close(null);
     }
-
+    
     private Client GetData()
     {
         Client client = new Client();
