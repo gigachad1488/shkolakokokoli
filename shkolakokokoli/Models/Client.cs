@@ -4,7 +4,7 @@ namespace shkolakokokoli.Models;
 
 public class Client
 {
-    public int id { get; set; }
+    public int id;
     public string firstname { get; set; }
     public string surName { get; set; }
     public int phone { get; set; }

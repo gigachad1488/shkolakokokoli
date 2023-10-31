@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using shkolakokokoli.ViewModels;
 using Avalonia.Collections;
+using System.Diagnostics;
 
 namespace shkolakokokoli.Views;
 
@@ -52,8 +53,7 @@ public partial class MainWindow : Window
         int id = clientsDataGrid.SelectedIndex;
         if (id != -1)
         {
-            var mBox = MessageBoxManager.GetMessageBoxStandard("Удаление", "Удалить запись?",
-                MsBox.Avalonia.Enums.ButtonEnum.YesNo);
+            var mBox = MessageBoxManager.GetMessageBoxStandard("Удаление", "Удалить запись?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);
             var result = await mBox.ShowAsPopupAsync(this);
 
             if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
@@ -61,6 +61,7 @@ public partial class MainWindow : Window
                 Db.DeleteClient(selectedClient);
                 RefreshClient();
             }
+            Debug.WriteLine(clientsDataGrid.Columns.Count);
         }
     }
 
@@ -105,6 +106,8 @@ public partial class MainWindow : Window
         MainWindowViewModel.ClientsView = new DataGridCollectionView(MainWindowViewModel.Clients);
         MainWindowViewModel.ClientsView.Filter = Rc;
         MainWindowViewModel.ClientsView.Refresh();
+
+        
     }
 
 
