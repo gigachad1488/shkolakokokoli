@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\shkolakokokoli",
+    "\\shkolakokokoli\\Views"
   ],
-  "SelectedNode": "\\shkolakokokoli.sln",
+  "SelectedNode": "\\shkolakokokoli\\Views\\MainWindow.axaml.cs",
   "PreviewInSolutionExplorer": false
 }

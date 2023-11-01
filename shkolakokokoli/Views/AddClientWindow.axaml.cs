@@ -27,7 +27,7 @@ public partial class AddClientWindow : Window
         addButton.Click += delegate { ChangeClient(client.id); };
         cancelButton.Click += delegate { Close(null); };
 
-        firstNameText.Text = client.firstname;
+        firstNameText.Text = client.firstName;
         surNameText.Text = client.surName;
         phoneText.Text = client.phone.ToString();
         datePicker.SelectedDate = client.birthday;
@@ -70,7 +70,7 @@ public partial class AddClientWindow : Window
             return null;
         }
 
-        client.firstname = firstNameText.Text;
+        client.firstName = firstNameText.Text;
         client.surName = surNameText.Text;
         client.phone = Convert.ToInt32(phoneText.Text);
         DateTime? bd = datePicker.SelectedDate;

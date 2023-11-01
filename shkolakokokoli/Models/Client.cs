@@ -4,8 +4,8 @@ namespace shkolakokokoli.Models;
 
 public class Client
 {
-    public int id;
-    public string firstname { get; set; }
+    public int id { get; set; }
+    public string firstName { get; set; }
     public string surName { get; set; }
     public int phone { get; set; }
     public DateTime birthday { get; set; }
@@ -19,7 +19,7 @@ public class Client
     public Client(int id, string firstname, string surName, int phone, DateTime birthday, string lastLanguage, string languageLevel, string languageNeeds)
     {
         this.id = id;
-        this.firstname = firstname;
+        this.firstName = firstname;
         this.surName = surName;
         this.phone = phone;
         this.birthday = birthday;

@@ -16,7 +16,6 @@ public class MainWindowViewModel : ViewModelBase
 {
     public static ObservableCollection<Client> Clients { get; set; } = new ObservableCollection<Client>();
     public static DataGridCollectionView ClientsView { get; set; } = new DataGridCollectionView(Clients);
-    public static List<Client> AllClients;
     public ISeries[] Series { get; set; } = new ISeries[]
     {
         new LineSeries<double>
@@ -30,10 +29,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        //ClientsView = new DataGridCollectionView(Clients);
-        //ClientsView.Filter += 
 
-        //RefreshClients();
     }
     
     

@@ -34,7 +34,7 @@ public static class Db
     {
         connection.Open();
         MySqlCommand command = new MySqlCommand("INSERT INTO Client (firstname, surname, phone, birthday, last_language, language_level, language_needs) VALUES (@fn, @sn, @ph, @dt, @ll, @lal, @ln)", connection);
-        command.Parameters.AddWithValue("@fn", client.firstname);
+        command.Parameters.AddWithValue("@fn", client.firstName);
         command.Parameters.AddWithValue("@sn", client.surName);
         command.Parameters.AddWithValue("@ph", client.phone);
         command.Parameters.AddWithValue("@dt", client.birthday);
@@ -59,7 +59,7 @@ public static class Db
         connection.Open();
         MySqlCommand command = new MySqlCommand("UPDATE Client SET firstname = @fn, surname = @sn, phone = @ph, birthday = @dt, last_language = @ll, language_level = @lal, language_needs = @ln WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", client.id);
-        command.Parameters.AddWithValue("@fn", client.firstname);
+        command.Parameters.AddWithValue("@fn", client.firstName);
         command.Parameters.AddWithValue("@sn", client.surName);
         command.Parameters.AddWithValue("@ph", client.phone);
         command.Parameters.AddWithValue("@dt", client.birthday);

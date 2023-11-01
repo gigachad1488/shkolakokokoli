@@ -9,7 +9,7 @@ namespace shkolakokokoli.Views
         {
             InitializeComponent();
             
-            firstNameText.Text = client.firstname;
+            firstNameText.Text = client.firstName;
             surNameText.Text = client.surName;
             phoneText.Text = client.phone.ToString();
             dateText.Text = client.birthday.ToString();
