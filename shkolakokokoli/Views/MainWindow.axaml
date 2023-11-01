@@ -12,9 +12,15 @@
         Icon="/Assets/2skuf2.ico"
         Title="shkolakokokoli">
     <Window.Styles>
-		<Style Selector="TabControl WrapPanel">
-			<Setter Property="Background" Value="#fbed9e"/>
+		<Style Selector="TabControl.tabParent WrapPanel">
+			<Setter Property="Background" Value="#faed9e"/>
+            <Setter Property="Height" Value="65"/>
 		</Style>
+        
+        <Style Selector="TabControl.tabChild WrapPanel">
+            <Setter Property="Background" Value="#ffffda"/>
+            <Setter Property="Height" Value="50"/>
+        </Style>
         
         <Style Selector="DataGridColumnHeader">
             <Setter Property="Background" Value="#f2f2f2"></Setter>
@@ -28,9 +34,11 @@
     </Design.DataContext>
     
     <Grid Background="White">
-        <TabControl TabStripPlacement="Top" Background="White" >
-            <TabItem Header="Ученики">
-                <Grid  RowDefinitions="Auto, *">
+        <TabControl Classes="tabParent" TabStripPlacement="Top" Background="White" ClipToBounds="True" >
+            <TabItem Header="Учащиеся">
+                <TabControl Classes="tabChild" TabStripPlacement="Top"  Margin="-12, -2, -12, 0">
+                    <TabItem FontSize="12" FontWeight="Light" Header="Ученики">
+                    <Grid  RowDefinitions="Auto, *">
                     <Grid Grid.Row="0" Height="100" RowDefinitions="*, Auto">
                         <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Margin="10 ,0 ,0 ,0">
                             <Grid Grid.Column="0" Width="250" ColumnDefinitions="Auto, *">
@@ -60,14 +68,44 @@
                     </Grid>  
                     <Grid Grid.Row="1" Margin="0, 5, 0, 0">
                         <ScrollView VerticalScrollBarVisibility="Disabled">
-                        <DataGrid  x:Name="clientsDataGrid" SelectionChanged="ClientsDataGrid_OnSelectionChanged" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding ClientsView}" >
+                        <DataGrid  x:Name="clientsDataGrid" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding ClientsView}" >
                         </DataGrid>
                         </ScrollView>
                     </Grid>
                 </Grid>
+                    </TabItem>
+                    <TabItem FontSize="12" FontWeight="Light" Header="Классы">
+                        <Grid  RowDefinitions="Auto, *">
+                            <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
+                                <Button BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
+                                </Button>
+                                <Button BorderThickness="1" BorderBrush="Black" Grid.Column="1" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="125" Margin="10, 5, 0, 5">
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Редактировать</TextBlock>
+                                </Button>
+                                <Button BorderThickness="1" BorderBrush="Black" Grid.Column="2" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
+                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Удалить</TextBlock>
+                                </Button>
+                                <Grid Grid.Column="3" ColumnDefinitions="*, Auto">
+                                    <TextBox Grid.Column="0" BorderThickness="1" BorderBrush="Black" Watermark="Поиск" Width="200" Margin="20, 5, 0, 5" >
+                                    </TextBox>
+                                    <Button Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Width="30" VerticalAlignment="Stretch" Margin="-3, 5, 0, 5">
+                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">☨</TextBlock>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <ScrollView VerticalScrollBarVisibility="Disabled">
+                                    <DataGrid  x:Name="classesDataGrid" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding ClientsView}" >
+                                    </DataGrid>
+                                </ScrollView>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </TabItem>
-            <TabItem Header="Учитель">
-                <Grid  RowDefinitions="Auto, *">     
+            <TabItem Header="Курсы">
+                <Grid RowDefinitions="Auto, *">     
                         <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
                             <Button BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
@@ -80,7 +118,6 @@
                             </Button>
                             <Grid Grid.Column="3" ColumnDefinitions="*, Auto">
                                 <TextBox x:Name="filterText"  Grid.Column="0" BorderThickness="1" BorderBrush="Black" Watermark="Поиск" Width="200" Margin="20, 5, 0, 5" >
-                                
                                 </TextBox>
                                 <Button Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Width="30" VerticalAlignment="Stretch" Margin="-3, 5, 0, 5">
                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">☨</TextBlock>
@@ -90,7 +127,7 @@
                     <Grid Grid.Row="1"></Grid>
                 </Grid>
             </TabItem>    
-            <TabItem Header="Занятия">
+            <TabItem Header="Расписание">
                 <Grid  RowDefinitions="Auto, *">
                     <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
                         <Button BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
@@ -104,7 +141,6 @@
                         </Button>
                         <Grid Grid.Column="3" ColumnDefinitions="*, Auto">
                             <TextBox Grid.Column="0" BorderThickness="1" BorderBrush="Black" Watermark="Поиск" Width="200" Margin="20, 5, 0, 5" >
-                                
                             </TextBox>
                             <Button Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Width="30" VerticalAlignment="Stretch" Margin="-3, 5, 0, 5">
                                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">☨</TextBlock>
@@ -114,6 +150,84 @@
                     <Grid Grid.Row="1"></Grid>
                 </Grid>
             </TabItem>       
+            <TabItem Header="Разное">
+                <TabControl Classes="tabChild" TabStripPlacement="Top"  Margin="-12, -2, -12, 0">
+                    <TabItem FontSize="12" FontWeight="Light" Header="Учителя">
+                        <Grid  RowDefinitions="Auto, *">
+                    <Grid Grid.Row="0" Height="100" RowDefinitions="*, Auto">
+                        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Margin="10 ,0 ,0 ,0">
+                            <Grid Grid.Column="0" Width="250" ColumnDefinitions="Auto, *">
+                                <TextBlock Grid.Column="0" VerticalAlignment="Center">Без курсов:</TextBlock>
+								<CheckBox Grid.Column="1" CornerRadius="15" x:Name="teachersWOClassesRadioButton" Margin="10, 0, 0, 0">
+								</CheckBox>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto, Auto, Auto">
+                            <Button x:Name="addTeacherButton" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
+                            </Button>
+                            <Button x:Name="redactTeacherButton" BorderThickness="1" BorderBrush="Black" Grid.Column="1" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="125" Margin="10, 5, 0, 5">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Редактировать</TextBlock>
+                            </Button>
+                            <Button x:Name="deleteTeacherButton" BorderThickness="1" BorderBrush="Black" Grid.Column="2" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Удалить</TextBlock>
+                            </Button>
+                            <Grid Grid.Column="3" ColumnDefinitions="*, Auto">
+                                <TextBox x:Name="teacherFilterText" Grid.Column="0" BorderThickness="1" BorderBrush="Black" Watermark="Поиск" Width="200" Margin="20, 5, 0, 5" >                             
+                                </TextBox>
+                                <Button x:Name="clearTeacherFilterButton" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Width="30" VerticalAlignment="Stretch" Margin="-3, 5, 0, 5">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">☨</TextBlock>
+                                </Button>
+                            </Grid>                                                
+                        </Grid>
+                    </Grid>  
+                    <Grid Grid.Row="1" Margin="0, 5, 0, 0">
+                        <ScrollView VerticalScrollBarVisibility="Disabled">
+                        <DataGrid  x:Name="teachersDataGrid" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding TeachersView}" >
+                        </DataGrid>
+                        </ScrollView>
+                    </Grid>
+                </Grid>
+                    </TabItem>
+                    <TabItem FontSize="12" FontWeight="Light" Header="Языки">
+                        <Grid  RowDefinitions="Auto, *">
+                    <Grid Grid.Row="0" Height="100" RowDefinitions="*, Auto">
+                        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Margin="10 ,0 ,0 ,0">
+                            <Grid Grid.Column="0" Width="250" ColumnDefinitions="Auto, *">
+                                <TextBlock Grid.Column="0" VerticalAlignment="Center">Без курсов:</TextBlock>
+								<CheckBox Grid.Column="1" CornerRadius="15" x:Name="languagesWOClassesRadioButton" Margin="10, 0, 0, 0">
+								</CheckBox>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto, Auto, Auto">
+                            <Button x:Name="addLanguageButton" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
+                            </Button>
+                            <Button x:Name="redactLanguageButton" BorderThickness="1" BorderBrush="Black" Grid.Column="1" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="125" Margin="10, 5, 0, 5">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Редактировать</TextBlock>
+                            </Button>
+                            <Button x:Name="deleteLanguageButton" BorderThickness="1" BorderBrush="Black" Grid.Column="2" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Удалить</TextBlock>
+                            </Button>
+                            <Grid Grid.Column="3" ColumnDefinitions="*, Auto">
+                                <TextBox x:Name="languageFilterText" Grid.Column="0" BorderThickness="1" BorderBrush="Black" Watermark="Поиск" Width="200" Margin="20, 5, 0, 5" >                             
+                                </TextBox>
+                                <Button x:Name="clearLanguageFilterButton" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Width="30" VerticalAlignment="Stretch" Margin="-3, 5, 0, 5">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">☨</TextBlock>
+                                </Button>
+                            </Grid>                                                
+                        </Grid>
+                    </Grid>  
+                    <Grid Grid.Row="1" Margin="0, 5, 0, 0">
+                        <ScrollView VerticalScrollBarVisibility="Disabled">
+                        <DataGrid  x:Name="languagesDataGrid" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding LanguagesView}" >
+                        </DataGrid>
+                        </ScrollView>
+                    </Grid>
+                </Grid>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
             <TabItem Header="Статистика">
                 <Grid>
                     <lvc:CartesianChart Background="Black" Series="{Binding Series}"></lvc:CartesianChart>
