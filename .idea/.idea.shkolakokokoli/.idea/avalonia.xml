@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="shkolakokokoli/App.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/RedactWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/Views/AddClientWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/Views/AddLanguageWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/Views/AddTeacherWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/Views/ClientUserControl.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/Views/MainWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/Views/RedWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
