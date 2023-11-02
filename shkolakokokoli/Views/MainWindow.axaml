@@ -14,13 +14,26 @@
     <Window.Styles>
 		<Style Selector="TabControl.tabParent WrapPanel">
 			<Setter Property="Background" Value="#faed9e"/>
-            <Setter Property="Height" Value="65"/>
+            <Setter Property="Height" Value="60"/>
 		</Style>
-        
+
+		<Style Selector="TabControl.tabParent TabItem">
+			<Setter Property="FontSize" Value="18"></Setter>
+		</Style>
+
+		<Style Selector="TabControl.tabChild">
+			<Setter Property="Margin" Value="-12, -2, -12, 0"></Setter>
+		</Style>
+		
         <Style Selector="TabControl.tabChild WrapPanel">
             <Setter Property="Background" Value="#ffffda"/>
-            <Setter Property="Height" Value="50"/>
+            <Setter Property="Height" Value="45"/>
         </Style>
+
+		<Style Selector="TabControl.tabChild TabItem">
+			<Setter Property="FontSize" Value="12"></Setter>
+			<Setter Property="FontWeight" Value="Light"> </Setter>
+		</Style>
         
         <Style Selector="DataGridColumnHeader">
             <Setter Property="Background" Value="#f2f2f2"></Setter>
@@ -36,8 +49,8 @@
     <Grid Background="White">
         <TabControl Classes="tabParent" TabStripPlacement="Top" Background="White" ClipToBounds="True" >
             <TabItem Header="Учащиеся">
-                <TabControl Classes="tabChild" TabStripPlacement="Top"  Margin="-12, -2, -12, 0">
-                    <TabItem FontSize="12" FontWeight="Light" Header="Ученики">
+                <TabControl Classes="tabChild" TabStripPlacement="Top">
+                    <TabItem Header="Ученики">
                     <Grid  RowDefinitions="Auto, *">
                     <Grid Grid.Row="0" Height="100" RowDefinitions="*, Auto">
                         <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Margin="10 ,0 ,0 ,0">
@@ -74,7 +87,7 @@
                     </Grid>
                 </Grid>
                     </TabItem>
-                    <TabItem FontSize="12" FontWeight="Light" Header="Классы">
+                    <TabItem Header="Классы">
                         <Grid  RowDefinitions="Auto, *">
                             <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
                                 <Button BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
@@ -124,7 +137,8 @@
                                 </Button>
                             </Grid>
                         </Grid>
-                    <Grid Grid.Row="1"></Grid>
+                    <Grid Grid.Row="1" Background="Aqua">
+					</Grid>
                 </Grid>
             </TabItem>    
             <TabItem Header="Расписание">
@@ -152,7 +166,7 @@
             </TabItem>       
             <TabItem Header="Разное">
                 <TabControl Classes="tabChild" TabStripPlacement="Top"  Margin="-12, -2, -12, 0">
-                    <TabItem FontSize="12" FontWeight="Light" Header="Учителя">
+                    <TabItem Header="Учителя">
                         <Grid  RowDefinitions="Auto, *">
                     <Grid Grid.Row="0" Height="100" RowDefinitions="*, Auto">
                         <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Margin="10 ,0 ,0 ,0">
@@ -189,8 +203,8 @@
                     </Grid>
                 </Grid>
                     </TabItem>
-                    <TabItem FontSize="12" FontWeight="Light" Header="Языки">
-                        <Grid  RowDefinitions="Auto, *">
+                    <TabItem Header="Языки">
+                        <Grid RowDefinitions="Auto, *">
                     <Grid Grid.Row="0" Height="100" RowDefinitions="*, Auto">
                         <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Margin="10 ,0 ,0 ,0">
                             <Grid Grid.Column="0" Width="250" ColumnDefinitions="Auto, *">
@@ -233,7 +247,7 @@
                     <lvc:CartesianChart Background="Black" Series="{Binding Series}"></lvc:CartesianChart>
                 </Grid>
             </TabItem>       
-            <TabItem Width="60" IsEnabled="False" HorizontalAlignment="Right">
+            <TabItem Width="60" Margin="0, 0, 0, 12" IsEnabled="False" HorizontalAlignment="Right">
                 <TabItem.Header>
                     <Image Source="../Assets/2skuf2.ico"></Image>
                 </TabItem.Header>

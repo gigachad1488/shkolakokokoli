@@ -22,12 +22,13 @@ public partial class MainWindow : Window
         SetClientsGrid();
         SetTeachersGrid();
         SetLanguagesGrid();
-    }
 
+    }
+    bool bd = false;
     #region Clients
-    
+
     private Client selectedClient;
-    bool bd = true;
+    
 
     public void SetClientsGrid()
     {
@@ -166,7 +167,6 @@ public partial class MainWindow : Window
     #region Teachers
 
     private Teacher selectedTeacher;
-    private bool dbt = true;
     public void SetTeachersGrid()
     {
         addTeacherButton.Click += delegate { ShowAddTeachersWindow(); };
@@ -177,7 +177,7 @@ public partial class MainWindow : Window
         teachersDataGrid.SelectionChanged += TeachersDataGrid_OnSelectionChanged;
         teachersDataGrid.AutoGeneratingColumn += SetTeachersGridCollumnName;
 
-        if (dbt)
+        if (bd)
         { 
             MainWindowViewModel.RefreshTeachers();
         }
@@ -290,7 +290,6 @@ public partial class MainWindow : Window
     #region Language
 
     private Language selectedLanguage;
-    private bool dbl = true;
     public void SetLanguagesGrid()
     {
         addLanguageButton.Click += delegate { ShowAddLanguagesWindow(); };
@@ -301,7 +300,7 @@ public partial class MainWindow : Window
         languagesDataGrid.SelectionChanged += LanguagesDataGrid_OnSelectionChanged;
         languagesDataGrid.AutoGeneratingColumn += SetLanguagesGridCollumnName;
 
-        if (dbl)
+        if (bd)
         { 
             MainWindowViewModel.RefreshLanguages();
         }
