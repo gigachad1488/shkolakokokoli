@@ -25,7 +25,7 @@ public partial class MainWindow : Window
         SetCoursesGrid();
 
     }
-    bool bd = true;
+    bool bd = false;
     #region Clients
 
     private Client selectedClient;
@@ -185,10 +185,10 @@ public partial class MainWindow : Window
         else
         {
             MainWindowViewModel.Teachers.Add(new Teacher(0, "as1", "ab7"));
-            MainWindowViewModel.Teachers.Add(new Teacher(0, "as2", "ab8"));
-            MainWindowViewModel.Teachers.Add(new Teacher(0, "as3", "ab2"));
-            MainWindowViewModel.Teachers.Add(new Teacher(0, "as4", "ab3"));
-            MainWindowViewModel.Teachers.Add(new Teacher(0, "as5", "ab71"));
+            MainWindowViewModel.Teachers.Add(new Teacher(1, "as2", "ab8"));
+            MainWindowViewModel.Teachers.Add(new Teacher(2, "as3", "ab2"));
+            MainWindowViewModel.Teachers.Add(new Teacher(3, "as4", "ab3"));
+            MainWindowViewModel.Teachers.Add(new Teacher(4, "as5", "ab71"));
         }
 
         teacherFilterText.TextChanged += delegate { OnTeacherFilterChanged(); };
@@ -307,10 +307,10 @@ public partial class MainWindow : Window
         else
         {
             MainWindowViewModel.Languages.Add(new Language(0, "as1"));
-            MainWindowViewModel.Languages.Add(new Language(0, "as4"));
-            MainWindowViewModel.Languages.Add(new Language(0, "as3"));
-            MainWindowViewModel.Languages.Add(new Language(0, "as2"));
-            MainWindowViewModel.Languages.Add(new Language(0, "as5"));
+            MainWindowViewModel.Languages.Add(new Language(1, "as4"));
+            MainWindowViewModel.Languages.Add(new Language(2, "as3"));
+            MainWindowViewModel.Languages.Add(new Language(3, "as2"));
+            MainWindowViewModel.Languages.Add(new Language(4, "as5"));
         }
 
         languageFilterText.TextChanged += delegate { OnLanguageFilterChanged(); };
@@ -425,11 +425,10 @@ public partial class MainWindow : Window
         }
         else
         {
-            MainWindowViewModel.Teachers.Add(new Teacher(0, "as1", "ab7"));
-            MainWindowViewModel.Teachers.Add(new Teacher(0, "as2", "ab8"));
-            MainWindowViewModel.Teachers.Add(new Teacher(0, "as3", "ab2"));
-            MainWindowViewModel.Teachers.Add(new Teacher(0, "as4", "ab3"));
-            MainWindowViewModel.Teachers.Add(new Teacher(0, "as5", "ab71"));
+            MainWindowViewModel.Courses.Add(new Course(0, "342", MainWindowViewModel.Teachers[0], MainWindowViewModel.Languages[0], 255));
+            MainWindowViewModel.Courses.Add(new Course(1, "342ф", MainWindowViewModel.Teachers[1], MainWindowViewModel.Languages[1], 2355));
+            MainWindowViewModel.Courses.Add(new Course(2, "342и", MainWindowViewModel.Teachers[2], MainWindowViewModel.Languages[2], 2155));
+            MainWindowViewModel.Courses.Add(new Course(3, "342в", MainWindowViewModel.Teachers[3], MainWindowViewModel.Languages[3], 2535));
         }
 
         courseFilterText.TextChanged += delegate { OnCourseFilterChanged(); };
@@ -437,14 +436,13 @@ public partial class MainWindow : Window
         MainWindowViewModel.CoursesView = new DataGridCollectionView(MainWindowViewModel.Courses);
         MainWindowViewModel.CoursesView.Filter = CoursesFilter;
         MainWindowViewModel.CoursesView.Refresh();
-        Console.WriteLine( " CHECHER = " + MainWindowViewModel.Courses[0].teacher.ToString());
     }
 
     public void ShowAddCourseWindow()
     {
         AddCourseWindow adw = new AddCourseWindow();
         adw.DataContext = this.DataContext;
-        adw.Closed += delegate { RefreshCourse(); };
+        //adw.Closed += delegate { RefreshCourse(); };
         adw.ShowDialog(this);
     }
 
@@ -496,10 +494,10 @@ public partial class MainWindow : Window
             case "name":
                 e.Column.Header = "Название";
                 break;
-            case "teacher":
+            case "Teacher":
                 e.Column.Header = "Учитель";
                 break;
-            case "language":
+            case "Language":
                 e.Column.Header = "Язык";
                 break;
             case "price":

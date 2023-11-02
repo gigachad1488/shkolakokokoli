@@ -14,5 +14,8 @@ public class Language
         this.name = name;
     }
 
-    
+    public override string ToString()
+    {
+        return name;
+    }
 }

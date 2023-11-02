@@ -12,23 +12,28 @@
         Icon="/Assets/2skuf2.ico"
         CanResize="False"
         Title="AddClassWindow">
-    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
-                <TextBlock x:Name="windowText" Grid.Row="0" FontWeight="ExtraBold" FontSize="25" HorizontalAlignment="Center" Margin="0, 10, 0, 0">Добавление класса</TextBlock>
-                <Grid Grid.Row="1" Height="30" Margin="0, 30, 0, 0" ColumnDefinitions="Auto, Auto">
-                        <Button x:Name="addButton" Grid.Column="0" Background="Gold" Width="120" BorderBrush="Black"  Margin="10, 0, 0, 0">
-                                <TextBlock x:Name="addButtonText" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">Добавить</TextBlock>
-                        </Button>
-                        <Button x:Name="cancelButton" Grid.Column="1" Background="WhiteSmoke" BorderBrush="Black" Width="120"  Margin="10, 0, 0, 0">
-                                <TextBlock HorizontalAlignment="Center" FontSize="15" VerticalAlignment="Center" FontWeight="Light">Отмена</TextBlock>
-                        </Button>
-                </Grid>
-                <Grid Grid.Row="2" Height="40" Margin="15, 20, 15, 0" ColumnDefinitions="Auto, *">
-                        <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">название*:</TextBlock>
-                        <TextBox TextAlignment="Start" FontSize="10" x:Name="nameText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
-                </Grid>
-                <Grid Grid.Row="3" Height="40" Margin="15, 5, 15, 10" ColumnDefinitions="Auto, *">
-                        <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Фамилия*:</TextBlock>
-                        <TextBox TextAlignment="Start" FontSize="10" x:Name="surNameText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
-                </Grid>
-    </Grid>
+	<Grid x:Name="rootGrid" Opacity="0" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+		<Grid.Transitions>
+			<Transitions>
+				<DoubleTransition Property="Opacity" Duration="0:0:0.8"/>
+			</Transitions>
+		</Grid.Transitions>
+		<TextBlock x:Name="windowText" Grid.Row="0" FontWeight="ExtraBold" FontSize="25" HorizontalAlignment="Center" Margin="0, 10, 0, 0">Добавление класса</TextBlock>
+		<Grid Grid.Row="1" Height="30" Margin="0, 30, 0, 0" ColumnDefinitions="Auto, Auto">
+			<Button x:Name="addButton" Grid.Column="0" Background="Gold" Width="120" BorderBrush="Black"  Margin="10, 0, 0, 0">
+				<TextBlock x:Name="addButtonText" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">Добавить</TextBlock>
+			</Button>
+			<Button x:Name="cancelButton" Grid.Column="1" Background="WhiteSmoke" BorderBrush="Black" Width="120"  Margin="10, 0, 0, 0">
+				<TextBlock HorizontalAlignment="Center" FontSize="15" VerticalAlignment="Center" FontWeight="Light">Отмена</TextBlock>
+			</Button>
+		</Grid>
+		<Grid Grid.Row="2" Height="40" Margin="15, 20, 15, 0" ColumnDefinitions="Auto, *">
+			<TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">название*:</TextBlock>
+			<TextBox TextAlignment="Start" FontSize="10" x:Name="nameText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
+		</Grid>
+		<Grid Grid.Row="3" Height="40" Margin="15, 5, 15, 10" ColumnDefinitions="Auto, *">
+			<TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Фамилия*:</TextBlock>
+			<TextBox TextAlignment="Start" FontSize="10" x:Name="surNameText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
+		</Grid>
+	</Grid>
 </Window>

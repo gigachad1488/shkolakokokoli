@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using shkolakokokoli.Models;
 
@@ -13,6 +14,12 @@ public partial class AddLanguageWindow : Window
         
         addButton.Click += delegate { AddLanguage(); }; 
         cancelButton.Click += delegate { Close(null); }; 
+    }
+
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        rootGrid.Opacity = 1;
     }
 
     public AddLanguageWindow(Language language)

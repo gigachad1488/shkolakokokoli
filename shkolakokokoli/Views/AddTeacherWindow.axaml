@@ -12,7 +12,12 @@
         Icon="/Assets/2skuf2.ico"
         CanResize="False"
         Title="AddTeacherWindow">
-    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+    <Grid x:Name="rootGrid" Opacity="0" RowDefinitions="Auto, Auto, Auto, Auto">
+		<Grid.Transitions>
+			<Transitions>
+				<DoubleTransition Property="Opacity" Duration="0:0:0.8"/>
+			</Transitions>
+		</Grid.Transitions>
                 <TextBlock x:Name="windowText" Grid.Row="0" FontWeight="ExtraBold" FontSize="25" HorizontalAlignment="Center" Margin="0, 10, 0, 0">Добавление учителя</TextBlock>
                 <Grid Grid.Row="1" Height="30" Margin="0, 30, 0, 0" ColumnDefinitions="Auto, Auto">
                         <Button x:Name="addButton" Grid.Column="0" Background="Gold" Width="120" BorderBrush="Black"  Margin="10, 0, 0, 0">

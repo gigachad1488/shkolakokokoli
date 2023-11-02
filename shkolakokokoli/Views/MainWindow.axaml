@@ -39,6 +39,20 @@
             <Setter Property="Background" Value="#f2f2f2"></Setter>
         </Style>
 
+		<Style Selector="TabItem:pressed TabControl /template/ ContentPresenter">
+			<Style.Animations>
+				<Animation Duration="0:0:0.5" FillMode="Forward" Easing="CubicEaseOut">
+					<KeyFrame Cue="0%">
+						<Setter Property="TranslateTransform.X" Value="100" />
+						<Setter Property="Opacity" Value="0" />
+					</KeyFrame>
+					<KeyFrame Cue="100%">
+						<Setter Property="TranslateTransform.X" Value="0" />
+						<Setter Property="Opacity" Value="1" />
+					</KeyFrame>
+				</Animation>
+			</Style.Animations>
+		</Style>
 
     </Window.Styles>
 
@@ -107,7 +121,7 @@
                                     </Button>
                                 </Grid>
                             </Grid>
-                            <Grid Grid.Row="1">
+                            <Grid Grid.Row="1" Margin="0, 5, 0, 0" >
                                 <ScrollView VerticalScrollBarVisibility="Disabled">
                                     <DataGrid  x:Name="classesDataGrid" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding ClientsView}" >
                                     </DataGrid>
@@ -137,7 +151,7 @@
                                 </Button>
                             </Grid>
                         </Grid>
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="1" Margin="0, 5, 0, 0" >
                         <DataGrid  x:Name="coursesDataGrid" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding CoursesView/}" >
                         </DataGrid>
                     </Grid>
@@ -163,7 +177,7 @@
                             </Button>
                         </Grid>
                     </Grid>
-                    <Grid Grid.Row="1"></Grid>
+                    <Grid Grid.Row="1" Margin="0, 5, 0, 0" ></Grid>
                 </Grid>
             </TabItem>       
             <TabItem Header="Разное">

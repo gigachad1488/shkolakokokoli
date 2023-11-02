@@ -1,6 +1,7 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using shkolakokokoli.Models;
 using shkolakokokoli.ViewModels;
@@ -16,6 +17,12 @@ public partial class AddClientWindow : Window
         
         addButton.Click += delegate { AddClient(); }; 
         cancelButton.Click += delegate { Close(null); }; 
+    }
+
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        rootGrid.Opacity = 1;
     }
 
     public AddClientWindow(Client client)

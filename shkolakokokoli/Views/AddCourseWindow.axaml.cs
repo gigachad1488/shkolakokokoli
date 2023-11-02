@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using shkolakokokoli.Models;
 using shkolakokokoli.ViewModels;
@@ -16,6 +17,12 @@ public partial class AddCourseWindow : Window
         
         addButton.Click += delegate { AddCourse(); }; 
         cancelButton.Click += delegate { Close(null); }; 
+    }
+
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        rootGrid.Opacity = 1;
     }
 
     public AddCourseWindow(Course course)

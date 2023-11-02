@@ -325,9 +325,8 @@ public static class Db
     #region Courses
 
     public static List<Course> GetAllCourses()
-    {
-        
-            connection.Open();
+    {       
+        connection.Open();  
         
         List<Course> courses = new List<Course>();
         MySqlCommand command = new MySqlCommand("select * from Course", connection);
@@ -339,11 +338,11 @@ public static class Db
             course.name = reader.GetString(1);
             
             int tid = reader.GetInt32(2);
-            course.teacher = GetTeacherAt(tid);
+            //course.teacher = GetTeacherAt(tid);
             Console.WriteLine("TECHER = " + course.teacher.firstName);
 
             int lid = reader.GetInt32(3);
-            course.language = GetLanguageAt(lid);
+            //course.language = GetLanguageAt(lid);
 
             course.price = reader.GetInt32(4);
             

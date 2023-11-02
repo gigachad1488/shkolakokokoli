@@ -12,8 +12,13 @@
         Icon="/Assets/2skuf2.ico"
         CanResize="False"
         Title="AddClientWindow">
-        <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
-                <TextBlock x:Name="windowText" Grid.Row="0" FontWeight="ExtraBold" FontSize="25" HorizontalAlignment="Center" Margin="0, 10, 0, 0">Добавление ученика</TextBlock>
+        <Grid x:Name="rootGrid" Opacity="0" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
+			<Grid.Transitions>
+				<Transitions>
+					<DoubleTransition Property="Opacity" Duration="0:0:0.8"/>
+				</Transitions>
+			</Grid.Transitions>
+			<TextBlock x:Name="windowText" Grid.Row="0" FontWeight="ExtraBold" FontSize="25" HorizontalAlignment="Center" Margin="0, 10, 0, 0">Добавление ученика</TextBlock>
                 <Grid Grid.Row="1" Height="30" Margin="0, 30, 0, 0" ColumnDefinitions="Auto, Auto">
                         <Button x:Name="addButton" Grid.Column="0" Background="Gold" Width="120" BorderBrush="Black"  Margin="10, 0, 0, 0">
                                 <TextBlock x:Name="addButtonText" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">Добавить</TextBlock>
@@ -47,7 +52,7 @@
                         <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Уровень языка:</TextBlock>
                         <TextBox TextAlignment="Start" FontSize="10" x:Name="langLevelText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
                 </Grid>
-                <Grid Grid.Row="9" Height="40" Margin="15, 5, 15, 20" ColumnDefinitions="Auto, *">
+                <Grid Grid.Row="9" Height="40" Margin="15, 5, 15, 10" ColumnDefinitions="Auto, *">
                         <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Потребность языка:</TextBlock>
                         <TextBox TextAlignment="Start" FontSize="10" x:Name="langNeedsText" Grid.Column="1" Width="400" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
                 </Grid>
