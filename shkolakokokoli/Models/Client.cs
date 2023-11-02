@@ -8,7 +8,15 @@ public class Client
     public string firstName { get; set; }
     public string surName { get; set; }
     public int phone { get; set; }
-    public DateTime birthday { get; set; }
+    public DateTime birthday;
+
+    public string Birthday
+    {
+        get
+        {
+            return birthday.ToString("dd/MM/yyyy");
+        }
+    }
     public string lastLanguage { get; set; }
     public string languageLevel { get; set; }
     public string languageNeeds { get; set; }
@@ -26,5 +34,10 @@ public class Client
         this.lastLanguage = lastLanguage;
         this.languageLevel = languageLevel;
         this.languageNeeds = languageNeeds;
+    }
+    
+    public override string ToString()
+    {
+        return $"{firstName} {surName}";
     }
 }

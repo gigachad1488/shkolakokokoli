@@ -65,14 +65,17 @@ public partial class AddClientWindow : Window
     private Client GetData()
     {
         Client client = new Client();
-        if (firstNameText.Text == string.Empty || surNameText.Text == string.Empty || phoneText.Text == string.Empty || datePicker.SelectedDate == null)
+
+        int phone;
+        
+        if (firstNameText.Text == string.Empty || surNameText.Text == string.Empty || phoneText.Text == string.Empty || Int32.TryParse(phoneText.Text, out phone) || datePicker.SelectedDate == null)
         {
             return null;
         }
 
         client.firstName = firstNameText.Text;
         client.surName = surNameText.Text;
-        client.phone = Convert.ToInt32(phoneText.Text);
+        client.phone = phone;
         DateTime? bd = datePicker.SelectedDate;
         client.birthday = (DateTime)bd;
         client.lastLanguage = lastLangText.Text;

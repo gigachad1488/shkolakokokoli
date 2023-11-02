@@ -15,4 +15,9 @@ public class Teacher
         this.firstName = firstName;
         this.surName = surName;
     }
+
+    public override string ToString()
+    {
+        return $"{firstName} {surName}";
+    }
 }

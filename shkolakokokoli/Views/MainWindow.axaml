@@ -120,25 +120,27 @@
             <TabItem Header="Курсы">
                 <Grid RowDefinitions="Auto, *">     
                         <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
-                            <Button BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
+                            <Button x:Name="addCourseButton" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
                             </Button>
-                            <Button BorderThickness="1" BorderBrush="Black" Grid.Column="1" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="125" Margin="10, 5, 0, 5">
+                            <Button x:Name="redactCourseButton" BorderThickness="1" BorderBrush="Black" Grid.Column="1" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="125" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Редактировать</TextBlock>
                             </Button>
-                            <Button BorderThickness="1" BorderBrush="Black" Grid.Column="2" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
+                            <Button x:Name="deleteCourseButton" BorderThickness="1" BorderBrush="Black" Grid.Column="2" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Удалить</TextBlock>
                             </Button>
                             <Grid Grid.Column="3" ColumnDefinitions="*, Auto">
-                                <TextBox x:Name="filterText"  Grid.Column="0" BorderThickness="1" BorderBrush="Black" Watermark="Поиск" Width="200" Margin="20, 5, 0, 5" >
+                                <TextBox x:Name="courseFilterText"  Grid.Column="0" BorderThickness="1" BorderBrush="Black" Watermark="Поиск" Width="200" Margin="20, 5, 0, 5" >
                                 </TextBox>
-                                <Button Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Width="30" VerticalAlignment="Stretch" Margin="-3, 5, 0, 5">
+                                <Button x:Name="clearCoursesFilterButton" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="1" Width="30" VerticalAlignment="Stretch" Margin="-3, 5, 0, 5">
                                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">☨</TextBlock>
                                 </Button>
                             </Grid>
                         </Grid>
-                    <Grid Grid.Row="1" Background="Aqua">
-					</Grid>
+                    <Grid Grid.Row="1">
+                        <DataGrid  x:Name="coursesDataGrid" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding CoursesView/}" >
+                        </DataGrid>
+                    </Grid>
                 </Grid>
             </TabItem>    
             <TabItem Header="Расписание">
@@ -247,7 +249,7 @@
                     <lvc:CartesianChart Background="Black" Series="{Binding Series}"></lvc:CartesianChart>
                 </Grid>
             </TabItem>       
-            <TabItem Width="60" Margin="0, 0, 0, 12" IsEnabled="False" HorizontalAlignment="Right">
+            <TabItem Width="60" Margin="0, 7, 0, 7" IsEnabled="False" HorizontalAlignment="Right">
                 <TabItem.Header>
                     <Image Source="../Assets/2skuf2.ico"></Image>
                 </TabItem.Header>

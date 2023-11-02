@@ -16,7 +16,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     public static ObservableCollection<Client> Clients { get; set; } = new ObservableCollection<Client>();
     public static DataGridCollectionView ClientsView { get; set; } = new DataGridCollectionView(Clients);
-    
+
     public static ObservableCollection<Teacher> Teachers { get; set; } = new ObservableCollection<Teacher>();
     public static DataGridCollectionView TeachersView { get; set; } = new DataGridCollectionView(Teachers);
     
@@ -25,6 +25,9 @@ public class MainWindowViewModel : ViewModelBase
     
     public static ObservableCollection<Class> Classes { get; set; } = new ObservableCollection<Class>();
     public static DataGridCollectionView ClassesView { get; set; } = new DataGridCollectionView(Classes);
+    
+    public static ObservableCollection<Course> Courses { get; set; } = new ObservableCollection<Course>();
+    public static DataGridCollectionView CoursesView { get; set; } = new DataGridCollectionView(Courses);
     
     public ISeries[] Series { get; set; } = new ISeries[]
     {
@@ -66,8 +69,16 @@ public class MainWindowViewModel : ViewModelBase
     public static void RefreshClasses()
     {
         Classes.Clear();
-        //Classes.AddRange(Db.GetAllClasses());
+        Classes.AddRange(Db.GetAllClasses());
         ClassesView.Refresh();
+    }
+
+    public static void RefreshCourses()
+    {
+        Courses.Clear();
+        Courses.AddRange(Db.GetAllCourses());
+        CoursesView.Refresh();
+        Console.Write(Courses[0].name);
     }
     
 }

@@ -22,9 +22,10 @@ public partial class MainWindow : Window
         SetClientsGrid();
         SetTeachersGrid();
         SetLanguagesGrid();
+        SetCoursesGrid();
 
     }
-    bool bd = false;
+    bool bd = true;
     #region Clients
 
     private Client selectedClient;
@@ -284,7 +285,6 @@ public partial class MainWindow : Window
         }
     }
     
-
     #endregion
 
     #region Language
@@ -406,9 +406,132 @@ public partial class MainWindow : Window
 
     #endregion
 
-    #region Classes
+    #region Courses
 
-    
+    private Course selectedCourse;
+    public void SetCoursesGrid()
+    {
+        addCourseButton.Click += delegate { ShowAddCourseWindow(); };
+        redactCourseButton.Click += delegate { ShowRedactCourseWindow(); };
+        deleteCourseButton.Click += delegate { DeleteCourse(); };
+        clearCoursesFilterButton.Click += delegate { courseFilterText.Clear(); };
+
+        coursesDataGrid.SelectionChanged += CoursesDataGrid_OnSelectionChanged;
+        coursesDataGrid.AutoGeneratingColumn += SetCoursesGridCollumnName;
+
+        if (bd)
+        { 
+            MainWindowViewModel.RefreshCourses();
+        }
+        else
+        {
+            MainWindowViewModel.Teachers.Add(new Teacher(0, "as1", "ab7"));
+            MainWindowViewModel.Teachers.Add(new Teacher(0, "as2", "ab8"));
+            MainWindowViewModel.Teachers.Add(new Teacher(0, "as3", "ab2"));
+            MainWindowViewModel.Teachers.Add(new Teacher(0, "as4", "ab3"));
+            MainWindowViewModel.Teachers.Add(new Teacher(0, "as5", "ab71"));
+        }
+
+        courseFilterText.TextChanged += delegate { OnCourseFilterChanged(); };
+
+        MainWindowViewModel.CoursesView = new DataGridCollectionView(MainWindowViewModel.Courses);
+        MainWindowViewModel.CoursesView.Filter = CoursesFilter;
+        MainWindowViewModel.CoursesView.Refresh();
+        Console.WriteLine( " CHECHER = " + MainWindowViewModel.Courses[0].teacher.ToString());
+    }
+
+    public void ShowAddCourseWindow()
+    {
+        AddCourseWindow adw = new AddCourseWindow();
+        adw.DataContext = this.DataContext;
+        adw.Closed += delegate { RefreshCourse(); };
+        adw.ShowDialog(this);
+    }
+
+    public void ShowRedactCourseWindow()
+    {
+        int id = coursesDataGrid.SelectedIndex;
+        if (id != -1)
+        {
+            AddCourseWindow adw = new AddCourseWindow(selectedCourse);
+            adw.DataContext = this.DataContext;
+            adw.Closed += delegate { RefreshCourse(); };
+            adw.ShowDialog(this);
+        }
+    }
+
+    public void RefreshCourse()
+    {
+        MainWindowViewModel.RefreshCourses();
+    }
+
+    public async void DeleteCourse()
+    {
+        int id = coursesDataGrid.SelectedIndex;
+        if (id != -1)
+        {
+            var mBox = MessageBoxManager.GetMessageBoxStandard("Удаление", "Удалить запись?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);
+            var result = await mBox.ShowAsPopupAsync(this);
+
+            if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
+            {
+                Db.DeleteCourse(selectedCourse);
+                RefreshCourse();
+            }
+        }
+    }
+
+    private void OnCourseFilterChanged()
+    {       
+        MainWindowViewModel.CoursesView.Refresh();
+    }
+
+    public void SetCoursesGridCollumnName(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "id":
+                e.Column.IsVisible = false;
+                break;
+            case "name":
+                e.Column.Header = "Название";
+                break;
+            case "teacher":
+                e.Column.Header = "Учитель";
+                break;
+            case "language":
+                e.Column.Header = "Язык";
+                break;
+            case "price":
+                e.Column.Header = "Цена";
+                break;
+        }
+    }
+
+    public bool CoursesFilter(object o)
+    {
+        if (courseFilterText.Text != null && courseFilterText.Text != string.Empty)
+        {
+            Course course = (Course)o;
+            if (course.name.Contains(courseFilterText.Text) || course.language.ToString().Contains(courseFilterText.Text) || course.teacher.ToString().Contains(courseFilterText.Text) || course.price.ToString().Contains(courseFilterText.Text))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void CoursesDataGrid_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0)
+        {
+            selectedCourse = e.AddedItems[0] as Course;
+        }
+    }
 
     #endregion
 }

@@ -5,7 +5,9 @@
       <map>
         <entry key="shkolakokokoli/App.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
         <entry key="shkolakokokoli/RedactWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/Views/AddClassWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
         <entry key="shkolakokokoli/Views/AddClientWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/Views/AddCourseWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
         <entry key="shkolakokokoli/Views/AddLanguageWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
         <entry key="shkolakokokoli/Views/AddTeacherWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
         <entry key="shkolakokokoli/Views/ClientUserControl.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
