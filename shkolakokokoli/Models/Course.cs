@@ -39,4 +39,9 @@ public class Course
         Debug.WriteLine("ASDASDCICER = " + teacher.firstName);
         this.price = price;
     }
+
+    public override string ToString()
+    {
+        return name;
+    }
 }

@@ -23,9 +23,10 @@ public partial class MainWindow : Window
         SetTeachersGrid();
         SetLanguagesGrid();
         SetCoursesGrid();
-
+        SetClassGrid();
+        
     }
-    bool bd = false;
+    bool bd = true;
     #region Clients
 
     private Client selectedClient;
@@ -124,7 +125,7 @@ public partial class MainWindow : Window
             case "phone":
                 e.Column.Header = "Телефон";
                 break;
-            case "birthday":
+            case "Birthday":
                 e.Column.Header = "День рождения";
                 break;
             case "lastLanguage":
@@ -442,7 +443,7 @@ public partial class MainWindow : Window
     {
         AddCourseWindow adw = new AddCourseWindow();
         adw.DataContext = this.DataContext;
-        //adw.Closed += delegate { RefreshCourse(); };
+        adw.Closed += delegate { RefreshCourse(); };
         adw.ShowDialog(this);
     }
 
@@ -528,6 +529,146 @@ public partial class MainWindow : Window
         if (e.AddedItems.Count > 0)
         {
             selectedCourse = e.AddedItems[0] as Course;
+        }
+    }
+
+    #endregion
+
+    #region Classes
+
+    private Class selectedClass;
+    public void SetClassGrid()
+    {
+        addClassButton.Click += delegate { ShowAddCourseWindow(); };
+        redactClassButton.Click += delegate { ShowRedactClassWindow(); };
+        deleteClassButton.Click += delegate { DeleteClass(); };
+        clearClassFilterButton.Click += delegate { classFilterText.Clear(); };
+        
+        classesBox.SelectionChanged += ClassesBox_OnSelectionChanged;
+        //coursesDataGrid.AutoGeneratingColumn += SetCoursesGridCollumnName;
+
+        if (bd)
+        { 
+            RefreshClass();
+        }
+        else
+        {
+            MainWindowViewModel.Classes.Add(new Class(0, "4б", 15, new Course(0, "руски для тупых", new Teacher(0, "11", "1"), new Language(0, "руск"), 228), new Client(), new Client()));
+            MainWindowViewModel.Classes.Add(new Class(0, "5б", 16, new Course(0, "япоки для тупых", new Teacher(0, "22", "2"), new Language(0, "япоки"), 2281), new Client(), new Client()));
+            MainWindowViewModel.Classes.Add(new Class(0, "6б", 17, new Course(0, "татар для тупых", new Teacher(0, "33", "3"), new Language(0, "татар"), 2282), new Client(), new Client()));
+            MainWindowViewModel.Classes.Add(new Class(0, "7б", 18, new Course(0, "сга для тупых", new Teacher(0, "44", "4"), new Language(0, "сга"), 2283), new Client(), new Client()));
+        }
+
+        //classFilterText.TextChanged += delegate { OnCourseFilterChanged(); };
+
+        /*
+        MainWindowViewModel.CoursesView = new DataGridCollectionView(MainWindowViewModel.Courses);
+        MainWindowViewModel.CoursesView.Filter = CoursesFilter;
+        MainWindowViewModel.CoursesView.Refresh();
+        */
+    }
+
+    public void ShowAddClassWindow()
+    {
+        AddClassWindow adw = new AddClassWindow();
+        //adw.DataContext = this.DataContext;
+        adw.Closed += delegate { RefreshClass(); };
+        adw.ShowDialog(this);
+    }
+
+    public void ShowRedactClassWindow()
+    {
+        int id = classesBox.SelectedIndex;
+        if (id != -1)
+        {
+            AddClassWindow adw = new AddClassWindow(selectedClass);
+            adw.DataContext = this.DataContext;
+            adw.Closed += delegate { RefreshClass(); };
+            adw.ShowDialog(this);
+        }
+    }
+
+    public void RefreshClass()
+    {
+        classesBox.Items.Clear();
+        MainWindowViewModel.RefreshClasses();
+        foreach (var item in MainWindowViewModel.Classes)
+        {
+            classesBox.Items.Add(new ClassUserControl(item));
+        }
+    }
+
+    public async void DeleteClass()
+    {
+        int id = classesBox.SelectedIndex;
+        if (id != -1)
+        {
+            var mBox = MessageBoxManager.GetMessageBoxStandard("Удаление", "Удалить запись?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);
+            var result = await mBox.ShowAsPopupAsync(this);
+
+            if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
+            {
+                Db.DeleteClass(selectedClass);
+                RefreshClass();
+            }
+        }
+    }
+
+    private void OnClassFilterChanged()
+    {       
+        
+    }
+
+    /*
+    public void SetCoursesGridCollumnName(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "id":
+                e.Column.IsVisible = false;
+                break;
+            case "name":
+                e.Column.Header = "Название";
+                break;
+            case "Teacher":
+                e.Column.Header = "Учитель";
+                break;
+            case "Language":
+                e.Column.Header = "Язык";
+                break;
+            case "price":
+                e.Column.Header = "Цена";
+                break;
+        }
+    }
+    */
+
+    /*
+    public bool CoursesFilter(object o)
+    {
+        if (courseFilterText.Text != null && courseFilterText.Text != string.Empty)
+        {
+            Class group = (Class)o;
+            if (group.name.Contains(courseFilterText.Text) || group.course.ToString().Contains(courseFilterText.Text) || group.places.ToString().Contains(courseFilterText.Text))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    */
+
+
+    private void ClassesBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0)
+        {
+            ClassUserControl ctrl = e.AddedItems[0] as ClassUserControl;
+            selectedClass = ctrl.group;
         }
     }
 

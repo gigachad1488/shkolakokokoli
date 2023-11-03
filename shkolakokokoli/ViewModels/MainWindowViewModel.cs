@@ -24,7 +24,6 @@ public class MainWindowViewModel : ViewModelBase
     public static DataGridCollectionView LanguagesView { get; set; } = new DataGridCollectionView(Languages);
     
     public static ObservableCollection<Class> Classes { get; set; } = new ObservableCollection<Class>();
-    public static DataGridCollectionView ClassesView { get; set; } = new DataGridCollectionView(Classes);
     
     public static ObservableCollection<Course> Courses { get; set; } = new ObservableCollection<Course>();
     public static DataGridCollectionView CoursesView { get; set; } = new DataGridCollectionView(Courses);
@@ -70,7 +69,6 @@ public class MainWindowViewModel : ViewModelBase
     {
         Classes.Clear();
         Classes.AddRange(Db.GetAllClasses());
-        ClassesView.Refresh();
     }
 
     public static void RefreshCourses()
@@ -78,7 +76,7 @@ public class MainWindowViewModel : ViewModelBase
         Courses.Clear();
         Courses.AddRange(Db.GetAllCourses());
         CoursesView.Refresh();
-        Console.Write(Courses[0].name);
+        //Console.Write(Courses[0].name);
     }
     
 }

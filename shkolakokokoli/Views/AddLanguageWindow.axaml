@@ -11,7 +11,7 @@
         SystemDecorations="Full"
 		Icon="/Assets/2skuf2.ico"
         CanResize="False"
-        Title="AddLanguageWindow">
+        Title="Язык">
     <Grid x:Name="rootGrid" Opacity="0" RowDefinitions="Auto, Auto, Auto">
 		<Grid.Transitions>
 			<Transitions>

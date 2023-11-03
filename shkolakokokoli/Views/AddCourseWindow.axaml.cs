@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -34,9 +35,32 @@ public partial class AddCourseWindow : Window
         addButton.Click += delegate { ChangeCourse(course.id); };
         cancelButton.Click += delegate { Close(null); };
 
-        teachersBox.Items.CollectionChanged += delegate { teachersBox.SelectedIndex = MainWindowViewModel.Teachers.Select(x => x.id).First(x => x == course.teacher.id); };
-        Console.Write("TITER = " + MainWindowViewModel.Teachers.Select(x => x.id).First(x => x == course.teacher.id));
-        languagesBox.Items.CollectionChanged += delegate { languagesBox.SelectedItem = course.language; };
+        
+        teachersBox.Items.CollectionChanged += delegate
+        {
+            for (int i = 0; i < teachersBox.Items.Count; i++)
+            {
+                Teacher c = teachersBox.Items[i] as Teacher;
+                if (c.id == course.teacher.id)
+                {
+                    teachersBox.SelectedIndex = i;
+                    return;
+                }
+            }
+        };
+        //Console.Write("TITER = " + MainWindowViewModel.Teachers.Select(x => x.id).First(x => x == course.teacher.id));
+        languagesBox.Items.CollectionChanged += delegate
+        {
+            for (int i = 0; i < languagesBox.Items.Count; i++)
+            {
+                Language c = languagesBox.Items[i] as Language;
+                if (c.id == course.language.id)
+                {
+                    languagesBox.SelectedIndex = i;
+                    return;
+                }
+            }
+        };
 
         nameText.Text = course.name;
         priceText.Text = course.price.ToString();

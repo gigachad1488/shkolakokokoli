@@ -11,11 +11,15 @@ public static class Db
 {
     private static MySqlConnection connection;
     private static MySqlConnection connection2;
+    private static MySqlConnection connection3;
+    private static MySqlConnection connection4;
 
     static Db()
     {
         connection = new MySqlConnection("server=10.10.1.24;uid=user_01;pwd=user01pro;database=pro1_6");
         connection2 = new MySqlConnection("server=10.10.1.24;uid=user_01;pwd=user01pro;database=pro1_6");
+        connection3 = new MySqlConnection("server=10.10.1.24;uid=user_01;pwd=user01pro;database=pro1_6");
+        connection4 = new MySqlConnection("server=10.10.1.24;uid=user_01;pwd=user01pro;database=pro1_6");
     }
 
     #region Clients
@@ -55,6 +59,24 @@ public static class Db
         command.Parameters.AddWithValue("@ln", client.languageNeeds);
         command.ExecuteNonQuery();
         connection.Close();
+    }
+    
+    public static Client GetClientAt(int id)
+    {
+        if (connection2.State == ConnectionState.Closed)
+        {
+            connection2.Open();
+        }
+        
+        MySqlCommand command = new MySqlCommand("select * from Client where id = @id", connection2);
+        command.Parameters.AddWithValue("@id", id);
+        MySqlDataReader reader = command.ExecuteReader();
+        reader.Read();
+        Client client = new Client(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetDateTime(4), reader.GetString(5), reader.GetString(6), reader.GetString(7));
+        
+        connection2.Close();
+        
+        return client;
     }
 
     public static void DeleteClient(Client client)
@@ -127,6 +149,25 @@ public static class Db
         connection.Close();
     }
     
+    public static Teacher GetTeacherAt(int id)
+    {
+        if (connection2.State == ConnectionState.Closed)
+        {
+            connection2.Open();
+        }
+
+        Teacher teacher = new Teacher();
+        MySqlCommand command = new MySqlCommand("select * from Teacher where id = @id", connection2);
+        command.Parameters.AddWithValue("@id", id);
+        MySqlDataReader reader = command.ExecuteReader();
+        reader.Read();
+        teacher.id = reader.GetInt32(0);
+        teacher.firstName = reader.GetString(1);
+        teacher.surName = reader.GetString(2);
+        connection2.Close();
+        return teacher;
+    }
+    
     public static void ChangeTeacher(Teacher teacher)
     {
         if (connection.State == ConnectionState.Closed)
@@ -140,25 +181,6 @@ public static class Db
         command.Parameters.AddWithValue("@sn", teacher.surName);
         command.ExecuteNonQuery();
         connection.Close();
-    }
-
-    public static Teacher GetTeacherAt(int id)
-    {
-        if (connection2.State == ConnectionState.Closed)
-        {
-            connection2.Open();
-        }
-
-        Teacher teacher = new Teacher();
-        MySqlCommand commang = new MySqlCommand("select * from Teacher where id = @id", connection2);
-        commang.Parameters.AddWithValue("@id", id);
-        MySqlDataReader reader = commang.ExecuteReader();
-        reader.Read();
-        teacher.id = reader.GetInt32(0);
-        teacher.firstName = reader.GetString(1);
-        teacher.surName = reader.GetString(2);
-        connection2.Close();
-        return teacher;
     }
     
     public static void DeleteTeacher(Teacher teacher)
@@ -267,16 +289,32 @@ public static class Db
             connection.Open();
         }
         
-        List<Class> classes = new List<Class>();
-        MySqlCommand commang = new MySqlCommand("select * from Language", connection);
-        MySqlDataReader reader = commang.ExecuteReader();
+        List<Class> groups = new List<Class>();
+        MySqlCommand command = new MySqlCommand("select * from Class", connection);
+        MySqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
         {
-            //languages.Add(new Language(reader.GetInt32(0), reader.GetString(1)));
+            Class group = new Class();
+            group.id = reader.GetInt32(0);
+            group.name = reader.GetString(1);
+            group.places = reader.GetInt32(2);
+            group.course = GetCourseAt(reader.GetInt32(3));
+            List<Client> clientsatclass = new List<Client>();
+            connection4.Open();
+            MySqlCommand ccommand = new MySqlCommand("select * from Client join Client_on_class on Client.id = Client_on_class.client_id join Class on Client_on_class.class_id = Class.id where class_id = @id" ,connection4);
+            ccommand.Parameters.AddWithValue("@id", group.id);
+            MySqlDataReader creader = ccommand.ExecuteReader();
+            while (creader.Read())
+            {
+                Client c = GetClientAt(creader.GetInt32(0));
+            }
+            connection4.Close();
+            group.clients = clientsatclass;
+            groups.Add(group);
         }
         connection.Close();
         
-        return classes;
+        return groups;
     }
     
     
@@ -338,11 +376,11 @@ public static class Db
             course.name = reader.GetString(1);
             
             int tid = reader.GetInt32(2);
-            //course.teacher = GetTeacherAt(tid);
-            Console.WriteLine("TECHER = " + course.teacher.firstName);
+            course.teacher = GetTeacherAt(tid);
+            //Console.WriteLine("TECHER = " + course.teacher.firstName);
 
             int lid = reader.GetInt32(3);
-            //course.language = GetLanguageAt(lid);
+            course.language = GetLanguageAt(lid);
 
             course.price = reader.GetInt32(4);
             
@@ -369,6 +407,34 @@ public static class Db
         Console.Write(course.name);
         command.ExecuteNonQuery();
         connection.Close();
+    }
+    
+    public static Course GetCourseAt(int id)
+    {
+        if (connection3.State == ConnectionState.Closed)
+        {
+            connection3.Open();
+        }
+        
+        Course course = new Course();
+        MySqlCommand commang = new MySqlCommand("select * from Course where id = @id", connection3);
+        commang.Parameters.AddWithValue("@id", id);
+        MySqlDataReader reader = commang.ExecuteReader();
+        reader.Read();
+        course.id = reader.GetInt32(0);
+        course.name = reader.GetString(1);
+            
+        int tid = reader.GetInt32(2);
+        course.teacher = GetTeacherAt(tid);
+        //Console.WriteLine("TECHER = " + course.teacher.firstName);
+
+        int lid = reader.GetInt32(3);
+        course.language = GetLanguageAt(lid);
+
+        course.price = reader.GetInt32(4);
+
+        connection3.Close();
+        return course;
     }
     
     public static void ChangeCourse(Course course)

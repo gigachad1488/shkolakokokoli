@@ -6,7 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="shkolakokokoli.Views.AddCourseWindow"
         x:DataType="viewModels:MainWindowViewModel"
-        Title="AddCourseWindow"
+        Title="Курс"
         SizeToContent="WidthAndHeight"
         BorderBrush="Black"
         BorderThickness="1"
