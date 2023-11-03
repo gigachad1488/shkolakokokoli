@@ -177,7 +177,9 @@
                             </Button>
                         </Grid>
                     </Grid>
-                    <Grid Grid.Row="1" Margin="0, 5, 0, 0" ></Grid>
+                    <StackPanel Background="Black" Orientation="Vertical" x:Name="griid" Grid.Row="1" Margin="0, 5, 0, 0" >
+                        
+                    </StackPanel>
                 </Grid>
             </TabItem>       
             <TabItem Header="Разное">

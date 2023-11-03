@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:v="using:shkolakokokoli.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              Width="500" Height="50"
              x:Class="shkolakokokoli.Views.ClassUserControl">
@@ -9,8 +10,15 @@
         <TextBlock x:Name="nameText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">8б</TextBlock>
         <TextBlock x:Name="courseText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">русский снюсенок</TextBlock>
         <TextBlock x:Name="placesText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2">32</TextBlock>
-        <Button Background="WhiteSmoke" Grid.Column="3">
-            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">▼</TextBlock>
-        </Button>
+        <StackPanel Grid.Column="3" Orientation="Vertical">
+            <Button x:Name="popupButton" Background="WhiteSmoke" Margin="0, 0, 5, 0">
+                <TextBlock x:Name="popupButtonText" VerticalAlignment="Center" HorizontalAlignment="Center">▼</TextBlock>
+            </Button>
+            <Popup x:Name="clientsPopup" WindowManagerAddShadowHint="True" IsOpen="True" Placement="Bottom" PlacementTarget="popupButton">
+                <v:ClientsPopup></v:ClientsPopup>
+            </Popup>
+        </StackPanel>
+        
     </Grid>
+        
 </UserControl>

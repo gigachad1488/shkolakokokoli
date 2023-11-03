@@ -24,7 +24,7 @@ public partial class MainWindow : Window
         SetLanguagesGrid();
         SetCoursesGrid();
         SetClassGrid();
-        
+        griid.Children.Add(new ClassUserControl());
     }
     bool bd = true;
     #region Clients
@@ -539,7 +539,7 @@ public partial class MainWindow : Window
     private Class selectedClass;
     public void SetClassGrid()
     {
-        addClassButton.Click += delegate { ShowAddCourseWindow(); };
+        addClassButton.Click += delegate { ShowAddClassWindow(); };
         redactClassButton.Click += delegate { ShowRedactClassWindow(); };
         deleteClassButton.Click += delegate { DeleteClass(); };
         clearClassFilterButton.Click += delegate { classFilterText.Clear(); };
@@ -571,7 +571,7 @@ public partial class MainWindow : Window
     public void ShowAddClassWindow()
     {
         AddClassWindow adw = new AddClassWindow();
-        //adw.DataContext = this.DataContext;
+        adw.DataContext = this.DataContext;
         adw.Closed += delegate { RefreshClass(); };
         adw.ShowDialog(this);
     }

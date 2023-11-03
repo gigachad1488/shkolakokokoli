@@ -318,42 +318,47 @@ public static class Db
     }
     
     
-    public static void AddClass(Class language)
+    public static void AddClass(Class group)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
         
-        MySqlCommand command = new MySqlCommand("INSERT INTO Language (name) VALUES (@fn)", connection);
-        command.Parameters.AddWithValue("@fn", language.name);
+        MySqlCommand command = new MySqlCommand("INSERT INTO Class (name, places, course_id) VALUES (@n, @pl, @cr)", connection);
+        command.Parameters.AddWithValue("@n", group.name);
+        command.Parameters.AddWithValue("@pl", group.places);
+        command.Parameters.AddWithValue("@cr", group.course.id);
         command.ExecuteNonQuery();
         connection.Close();
     }
     
-    public static void ChangeClass(Class language)
+    public static void ChangeClass(Class group)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
         
-        MySqlCommand command = new MySqlCommand("UPDATE Language SET name = @fn WHERE id = @id", connection);
-        command.Parameters.AddWithValue("@id", language.id);
-        command.Parameters.AddWithValue("@fn", language.name);
+        MySqlCommand command = new MySqlCommand("UPDATE Class SET name = @n, places = @pl, course_id = @cr WHERE id = @id", connection);
+        command.Parameters.AddWithValue("@id", group.id);
+        command.Parameters.AddWithValue("@n", group.name);
+        command.Parameters.AddWithValue("@pl", group.places);
+        command.Parameters.AddWithValue("@cr", group.course.id);
         command.ExecuteNonQuery();
         connection.Close();
     }
     
-    public static void DeleteClass(Class language)
+    public static void DeleteClass(Class group)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
         
-        MySqlCommand command = new MySqlCommand("DELETE FROM Language WHERE id = @id", connection);
-        command.Parameters.AddWithValue("@id", language.id);
+        MySqlCommand command = new MySqlCommand("DELETE FROM Class WHERE id = @id", connection);
+        //Console.WriteLine(group.id);
+        command.Parameters.AddWithValue("@id", group.id);
         command.ExecuteNonQuery();
         connection.Close();
     }
