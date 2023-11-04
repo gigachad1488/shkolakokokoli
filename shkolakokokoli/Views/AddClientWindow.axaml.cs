@@ -75,7 +75,7 @@ public partial class AddClientWindow : Window
 
         int phone;
         
-        if (firstNameText.Text == string.Empty || surNameText.Text == string.Empty || phoneText.Text == string.Empty || Int32.TryParse(phoneText.Text, out phone) || datePicker.SelectedDate == null)
+        if (firstNameText.Text == string.Empty || surNameText.Text == string.Empty || phoneText.Text == string.Empty || !Int32.TryParse(phoneText.Text, out phone) || datePicker.SelectedDate == null)
         {
             return null;
         }
@@ -85,9 +85,9 @@ public partial class AddClientWindow : Window
         client.phone = phone;
         DateTime? bd = datePicker.SelectedDate;
         client.birthday = (DateTime)bd;
-        client.lastLanguage = lastLangText.Text;
-        client.languageLevel = langLevelText.Text;
-        client.languageNeeds = langNeedsText.Text;
+        client.lastLanguage = lastLangText.Text == null ? "" : lastLangText.Text;
+        client.languageLevel = langLevelText.Text == null ? "" : langLevelText.Text;
+        client.languageNeeds = langNeedsText.Text == null ? "" : langNeedsText.Text;
         return client;
     }
 }

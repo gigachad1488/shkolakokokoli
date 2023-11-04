@@ -9,6 +9,10 @@ namespace shkolakokokoli;
 
 public static class Db
 {
+    static bool s = false;
+    static string const1 = "server = 10.10.1.24; uid=user_01;pwd=user01pro;database=pro1_6";
+    static string const2 = "server = localhost; uid=user;pwd=qwerty228;database=world";
+
     private static MySqlConnection connection;
     private static MySqlConnection connection2;
     private static MySqlConnection connection3;
@@ -16,10 +20,20 @@ public static class Db
 
     static Db()
     {
-        connection = new MySqlConnection("server=10.10.1.24;uid=user_01;pwd=user01pro;database=pro1_6");
-        connection2 = new MySqlConnection("server=10.10.1.24;uid=user_01;pwd=user01pro;database=pro1_6");
-        connection3 = new MySqlConnection("server=10.10.1.24;uid=user_01;pwd=user01pro;database=pro1_6");
-        connection4 = new MySqlConnection("server=10.10.1.24;uid=user_01;pwd=user01pro;database=pro1_6");
+        if (s)
+        {
+            connection = new MySqlConnection(const1);
+            connection2 = new MySqlConnection(const1);
+            connection3 = new MySqlConnection(const1);
+            connection4 = new MySqlConnection(const1);
+        }
+        else
+        {
+            connection = new MySqlConnection(const2);
+            connection2 = new MySqlConnection(const2);
+            connection3 = new MySqlConnection(const2);
+            connection4 = new MySqlConnection(const2);
+        }
     }
 
     #region Clients
@@ -29,7 +43,7 @@ public static class Db
         {
             connection.Open();
         }
-        
+
         List<Client> clients = new List<Client>();
         MySqlCommand commang = new MySqlCommand("select * from Client", connection);
         MySqlDataReader reader = commang.ExecuteReader();
@@ -38,7 +52,7 @@ public static class Db
             clients.Add(new Client(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetDateTime(4), reader.GetString(5), reader.GetString(6), reader.GetString(7)));
         }
         connection.Close();
-        
+
         return clients;
     }
 
@@ -48,7 +62,7 @@ public static class Db
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("INSERT INTO Client (firstname, surname, phone, birthday, last_language, language_level, language_needs) VALUES (@fn, @sn, @ph, @dt, @ll, @lal, @ln)", connection);
         command.Parameters.AddWithValue("@fn", client.firstName);
         command.Parameters.AddWithValue("@sn", client.surName);
@@ -60,22 +74,22 @@ public static class Db
         command.ExecuteNonQuery();
         connection.Close();
     }
-    
+
     public static Client GetClientAt(int id)
     {
         if (connection2.State == ConnectionState.Closed)
         {
             connection2.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("select * from Client where id = @id", connection2);
         command.Parameters.AddWithValue("@id", id);
         MySqlDataReader reader = command.ExecuteReader();
         reader.Read();
         Client client = new Client(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetDateTime(4), reader.GetString(5), reader.GetString(6), reader.GetString(7));
-        
+
         connection2.Close();
-        
+
         return client;
     }
 
@@ -85,7 +99,7 @@ public static class Db
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("DELETE FROM Client WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", client.id);
         command.ExecuteNonQuery();
@@ -98,7 +112,7 @@ public static class Db
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("UPDATE Client SET firstname = @fn, surname = @sn, phone = @ph, birthday = @dt, last_language = @ll, language_level = @lal, language_needs = @ln WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", client.id);
         command.Parameters.AddWithValue("@fn", client.firstName);
@@ -106,7 +120,7 @@ public static class Db
         command.Parameters.AddWithValue("@ph", client.phone);
         command.Parameters.AddWithValue("@dt", client.birthday);
         command.Parameters.AddWithValue("@ll", client.lastLanguage);
-        command.Parameters.AddWithValue("@lal",client.languageLevel);
+        command.Parameters.AddWithValue("@lal", client.languageLevel);
         command.Parameters.AddWithValue("@ln", client.languageNeeds);
         command.ExecuteNonQuery();
         connection.Close();
@@ -121,7 +135,7 @@ public static class Db
         {
             connection.Open();
         }
-        
+
         List<Teacher> teachers = new List<Teacher>();
         MySqlCommand commang = new MySqlCommand("select * from Teacher", connection);
         MySqlDataReader reader = commang.ExecuteReader();
@@ -130,25 +144,25 @@ public static class Db
             teachers.Add(new Teacher(reader.GetInt32(0), reader.GetString(1), reader.GetString(2)));
         }
         connection.Close();
-        
+
         return teachers;
     }
-    
-    
+
+
     public static void AddTeacher(Teacher teacher)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("INSERT INTO Teacher (firstname, surname) VALUES (@fn, @sn)", connection);
         command.Parameters.AddWithValue("@fn", teacher.firstName);
         command.Parameters.AddWithValue("@sn", teacher.surName);
         command.ExecuteNonQuery();
         connection.Close();
     }
-    
+
     public static Teacher GetTeacherAt(int id)
     {
         if (connection2.State == ConnectionState.Closed)
@@ -167,14 +181,14 @@ public static class Db
         connection2.Close();
         return teacher;
     }
-    
+
     public static void ChangeTeacher(Teacher teacher)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("UPDATE Teacher SET firstname = @fn, surname = @sn WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", teacher.id);
         command.Parameters.AddWithValue("@fn", teacher.firstName);
@@ -182,20 +196,20 @@ public static class Db
         command.ExecuteNonQuery();
         connection.Close();
     }
-    
+
     public static void DeleteTeacher(Teacher teacher)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("DELETE FROM Teacher WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", teacher.id);
         command.ExecuteNonQuery();
         connection.Close();
     }
-    
+
     #endregion
 
     #region Language
@@ -206,7 +220,7 @@ public static class Db
         {
             connection.Open();
         }
-        
+
         List<Language> languages = new List<Language>();
         MySqlCommand commang = new MySqlCommand("select * from Language", connection);
         MySqlDataReader reader = commang.ExecuteReader();
@@ -215,18 +229,18 @@ public static class Db
             languages.Add(new Language(reader.GetInt32(0), reader.GetString(1)));
         }
         connection.Close();
-        
+
         return languages;
     }
-    
-    
+
+
     public static void AddLanguage(Language language)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("INSERT INTO Language (name) VALUES (@fn)", connection);
         command.Parameters.AddWithValue("@fn", language.name);
         command.ExecuteNonQuery();
@@ -239,7 +253,7 @@ public static class Db
         {
             connection2.Open();
         }
-        
+
         Language language = new Language();
         MySqlCommand commang = new MySqlCommand("select * from Language where id = @id", connection2);
         commang.Parameters.AddWithValue("@id", id);
@@ -250,28 +264,28 @@ public static class Db
         connection2.Close();
         return language;
     }
-    
+
     public static void ChangeLanguage(Language language)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("UPDATE Language SET name = @fn WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", language.id);
         command.Parameters.AddWithValue("@fn", language.name);
         command.ExecuteNonQuery();
         connection.Close();
     }
-    
+
     public static void DeleteLanguage(Language language)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("DELETE FROM Language WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", language.id);
         command.ExecuteNonQuery();
@@ -288,7 +302,7 @@ public static class Db
         {
             connection.Open();
         }
-        
+
         List<Class> groups = new List<Class>();
         MySqlCommand command = new MySqlCommand("select * from Class", connection);
         MySqlDataReader reader = command.ExecuteReader();
@@ -301,45 +315,60 @@ public static class Db
             group.course = GetCourseAt(reader.GetInt32(3));
             List<Client> clientsatclass = new List<Client>();
             connection4.Open();
-            MySqlCommand ccommand = new MySqlCommand("select * from Client join Client_on_class on Client.id = Client_on_class.client_id join Class on Client_on_class.class_id = Class.id where class_id = @id" ,connection4);
+            MySqlCommand ccommand = new MySqlCommand("select * from Client join Client_on_class on Client.id = Client_on_class.client_id join Class on Client_on_class.class_id = Class.id where class_id = @id", connection4);
             ccommand.Parameters.AddWithValue("@id", group.id);
             MySqlDataReader creader = ccommand.ExecuteReader();
             while (creader.Read())
             {
                 Client c = GetClientAt(creader.GetInt32(0));
+                clientsatclass.Add(c);
             }
             connection4.Close();
             group.clients = clientsatclass;
             groups.Add(group);
         }
         connection.Close();
-        
+
         return groups;
     }
-    
-    
+
+
     public static void AddClass(Class group)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("INSERT INTO Class (name, places, course_id) VALUES (@n, @pl, @cr)", connection);
         command.Parameters.AddWithValue("@n", group.name);
         command.Parameters.AddWithValue("@pl", group.places);
         command.Parameters.AddWithValue("@cr", group.course.id);
         command.ExecuteNonQuery();
+        command = new MySqlCommand("select LAST_INSERT_ID() from client", connection);
+        MySqlDataReader reader = command.ExecuteReader();
+        reader.Read();
+        int clid = reader.GetInt32(0);
+        connection2.Open();
+        MySqlCommand ccommand = new MySqlCommand("insert into client_on_class (client_id, class_id) value (@cid, @clid)", connection2);
+        foreach (var item in group.clients)
+        {
+            ccommand.Parameters.AddWithValue("@clid", clid);
+            ccommand.Parameters.AddWithValue("@cid", item.id);
+            ccommand.ExecuteNonQuery();
+            ccommand.Parameters.Clear();
+        }
+        connection2.Close();
         connection.Close();
     }
-    
+
     public static void ChangeClass(Class group)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("UPDATE Class SET name = @n, places = @pl, course_id = @cr WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", group.id);
         command.Parameters.AddWithValue("@n", group.name);
@@ -348,15 +377,19 @@ public static class Db
         command.ExecuteNonQuery();
         connection.Close();
     }
-    
+
     public static void DeleteClass(Class group)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
-        MySqlCommand command = new MySqlCommand("DELETE FROM Class WHERE id = @id", connection);
+
+        MySqlCommand command = new MySqlCommand("delete from client_on_class where class_id = @id", connection);
+        command.Parameters.AddWithValue("@id", group.id);
+        command.ExecuteNonQuery();
+
+        command = new MySqlCommand("DELETE FROM Class WHERE id = @id", connection);
         //Console.WriteLine(group.id);
         command.Parameters.AddWithValue("@id", group.id);
         command.ExecuteNonQuery();
@@ -368,9 +401,9 @@ public static class Db
     #region Courses
 
     public static List<Course> GetAllCourses()
-    {       
-        connection.Open();  
-        
+    {
+        connection.Open();
+
         List<Course> courses = new List<Course>();
         MySqlCommand command = new MySqlCommand("select * from Course", connection);
         MySqlDataReader reader = command.ExecuteReader();
@@ -379,7 +412,7 @@ public static class Db
             Course course = new Course();
             course.id = reader.GetInt32(0);
             course.name = reader.GetString(1);
-            
+
             int tid = reader.GetInt32(2);
             course.teacher = GetTeacherAt(tid);
             //Console.WriteLine("TECHER = " + course.teacher.firstName);
@@ -388,22 +421,22 @@ public static class Db
             course.language = GetLanguageAt(lid);
 
             course.price = reader.GetInt32(4);
-            
+
             courses.Add(course);
         }
         connection.Close();
-        
+
         return courses;
     }
-    
-    
+
+
     public static void AddCourse(Course course)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("INSERT INTO Course (name, teacher_id, language_id, price) VALUES (@n, @ti, @li, @pr)", connection);
         command.Parameters.AddWithValue("@n", course.name);
         command.Parameters.AddWithValue("@ti", course.teacher.id);
@@ -413,14 +446,14 @@ public static class Db
         command.ExecuteNonQuery();
         connection.Close();
     }
-    
+
     public static Course GetCourseAt(int id)
     {
         if (connection3.State == ConnectionState.Closed)
         {
             connection3.Open();
         }
-        
+
         Course course = new Course();
         MySqlCommand commang = new MySqlCommand("select * from Course where id = @id", connection3);
         commang.Parameters.AddWithValue("@id", id);
@@ -428,7 +461,7 @@ public static class Db
         reader.Read();
         course.id = reader.GetInt32(0);
         course.name = reader.GetString(1);
-            
+
         int tid = reader.GetInt32(2);
         course.teacher = GetTeacherAt(tid);
         //Console.WriteLine("TECHER = " + course.teacher.firstName);
@@ -441,14 +474,14 @@ public static class Db
         connection3.Close();
         return course;
     }
-    
+
     public static void ChangeCourse(Course course)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("UPDATE Course SET name = @n, teacher_id = @ti, language_id = @li, price = @pr WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", course.id);
         command.Parameters.AddWithValue("@n", course.name);
@@ -458,14 +491,14 @@ public static class Db
         command.ExecuteNonQuery();
         connection.Close();
     }
-    
+
     public static void DeleteCourse(Course course)
     {
         if (connection.State == ConnectionState.Closed)
         {
             connection.Open();
         }
-        
+
         MySqlCommand command = new MySqlCommand("DELETE FROM Course WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", course.id);
         command.ExecuteNonQuery();

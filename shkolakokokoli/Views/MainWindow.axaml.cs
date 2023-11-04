@@ -31,7 +31,6 @@ public partial class MainWindow : Window
 
     private Client selectedClient;
     
-
     public void SetClientsGrid()
     {
         addClientButton.Click += delegate { ShowAddClientWindow(); };

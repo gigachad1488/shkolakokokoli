@@ -16,8 +16,8 @@
         Title="Группа">
 	<Design.DataContext>
 		<viewModels:MainWindowViewModel/>
-	</Design.DataContext>	
-	<Grid x:Name="rootGrid" Opacity="0" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+	</Design.DataContext>
+	<Grid x:Name="rootGrid" Opacity="0" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto">
 		<Grid.Transitions>
 			<Transitions>
 				<DoubleTransition Property="Opacity" Duration="0:0:0.8"/>
@@ -44,5 +44,31 @@
 			<TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Курс*:</TextBlock>
 			<ComboBox FontSize="10" x:Name="courseBox" ItemsSource="{Binding Courses}" Grid.Column="1" Width="200" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></ComboBox>
 		</Grid>
+		<Border Grid.Row="5" BorderBrush="Black" BorderThickness="0, 1, 0, 0">
+			<Grid Height="220" RowDefinitions="Auto, *">
+				<Grid Height="50" Width="80" HorizontalAlignment="Left" RowDefinitions="*, *">
+					<TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">Клиенты</TextBlock>
+					<Grid Grid.Row="1" ColumnDefinitions="*, *">
+						<Button Width="30" Grid.Column="0" x:Name="addClientPopupButton" HorizontalAlignment="Center" Background="WhiteSmoke" BorderThickness="1" BorderBrush="Black">
+							<TextBlock VerticalAlignment="Center" FontWeight="Light" HorizontalAlignment="Center">+</TextBlock>
+						</Button>
+						<Button Width="30" Grid.Column="1" x:Name="deleteClientButton" HorizontalAlignment="Center" Background="WhiteSmoke" BorderThickness="1" BorderBrush="Black">
+							<TextBlock VerticalAlignment="Center" FontWeight="Light" HorizontalAlignment="Center">-</TextBlock>
+						</Button>
+					</Grid>				
+					<Popup x:Name="clientsPopup" Grid.Row="1" WindowManagerAddShadowHint="True" IsOpen="False" Placement="RightEdgeAlignedBottom" PlacementTarget="addClientPopupButton">
+						<Border BorderBrush="Black" Background="WhiteSmoke" BorderThickness="1">
+							<Grid RowDefinitions="*, Auto" Margin="0, 0, 0, 0" Width="450" Height="250">
+								<DataGrid x:Name="addclientgrid" IsReadOnly="True" Grid.Row="0" AutoGenerateColumns="True" BorderBrush="Black" BorderThickness="1" ></DataGrid>
+								<Button x:Name="addClientButton" HorizontalAlignment="Center" Margin="0, 2, 0, 2" Grid.Row="1" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke">
+									<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Добавить</TextBlock>
+								</Button>
+							</Grid>
+						</Border>
+					</Popup>
+				</Grid>
+				<DataGrid x:Name="datagrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="True" BorderBrush="Black" BorderThickness="1" Margin="1, 7, 1 , 1"></DataGrid>
+			</Grid>
+		</Border>
 	</Grid>
 </Window>

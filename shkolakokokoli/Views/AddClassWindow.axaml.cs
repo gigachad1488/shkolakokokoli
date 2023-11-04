@@ -1,20 +1,44 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using DynamicData;
+using NP.Utilities;
 using shkolakokokoli.Models;
+using shkolakokokoli.ViewModels;
 
 namespace shkolakokokoli.Views;
 
 public partial class AddClassWindow : Window
 {
+    private ObservableCollection<Client> addedClients { get; set; } = new ObservableCollection<Client>();
+    private List<Client> clientsToAdd { get; set; } = new List<Client>();
+
+    private Client selectedClient;
+    private Client selectedAddClient;
     public AddClassWindow()
     {
         InitializeComponent();
         
         addButton.Click += delegate { AddClass(); }; 
-        cancelButton.Click += delegate { Close(null); }; 
+        cancelButton.Click += delegate { Close(null); };
+        addClientButton.Click += delegate { AddClient(); };
+        deleteClientButton.Click += delegate { DeleteClient(); };
+        addClientPopupButton.Click += delegate { SwitchPopup(); };
+        datagrid.AutoGeneratingColumn += SetClientsGridCollumnName;
+        addclientgrid.AutoGeneratingColumn += SetClientsGridCollumnName;
+        datagrid.SelectionChanged += ClientsDataGrid_OnSelectionChanged;
+        addclientgrid.SelectionChanged += AddClientsDataGrid_OnSelectionChanged;
+
+        clientsToAdd.AddRange(MainWindowViewModel.Clients);
+
+        datagrid.ItemsSource = addedClients;
+        addclientgrid.ItemsSource = clientsToAdd;
     }
 
     protected override void OnLoaded(RoutedEventArgs e)
@@ -31,6 +55,13 @@ public partial class AddClassWindow : Window
         addButtonText.Text = "Изменить";
         addButton.Click += delegate { ChangeClass(group.id); };
         cancelButton.Click += delegate { Close(null); };
+        addClientButton.Click += delegate { AddClient(); };
+        deleteClientButton.Click += delegate { DeleteClient(); };
+        addClientPopupButton.Click += delegate { SwitchPopup(); };
+        datagrid.AutoGeneratingColumn += SetClientsGridCollumnName;
+        addclientgrid.AutoGeneratingColumn += SetClientsGridCollumnName;
+        datagrid.SelectionChanged += ClientsDataGrid_OnSelectionChanged;
+        addclientgrid.SelectionChanged += AddClientsDataGrid_OnSelectionChanged;
 
         nameText.Text = group.name;
         placesText.Text = group.places.ToString();
@@ -47,6 +78,70 @@ public partial class AddClassWindow : Window
                 }
             }
         };
+
+        addedClients.AddRange(group.clients);
+        List<Client> cta = MainWindowViewModel.Clients.ToList();
+        //Debug.WriteLine("fsadfa == " + clientsToAdd.Count);
+        for (int i = 0; i < cta.Count; i++)
+        {
+            for (int i1 = 0; i1 < addedClients.Count; i1++)
+            {
+                Client item = addedClients[i1];
+                //Debug.WriteLine("IIII = " + i);
+                if (item.id != cta[i].id)
+                {
+                    clientsToAdd.Add(cta[i]);
+                    break;
+                }
+            }
+        }
+
+        datagrid.ItemsSource = addedClients;
+        addclientgrid.ItemsSource = clientsToAdd;
+    }
+
+    public void SwitchPopup()
+    {
+        if (clientsPopup.IsOpen) 
+        {
+            clientsPopup.IsOpen = false;
+            addclientgrid.SelectedIndex = -1;
+            selectedAddClient = null;
+        }
+        else
+        {
+            clientsPopup.IsOpen = true;
+            addclientgrid.SelectedIndex = -1;
+            selectedAddClient = null;
+        }
+    }
+
+    public void SwitchPopup(bool state)
+    {
+        clientsPopup.IsOpen = state;
+    }
+
+    public void AddClient()
+    {       
+        if (selectedAddClient != null)
+        {
+            Debug.WriteLine("TRIGGERED = " + selectedAddClient == null);
+            addedClients.Add(selectedAddClient);
+            clientsToAdd.Remove(selectedAddClient);
+            selectedAddClient = null;
+            SwitchPopup(false);
+        }
+    }
+
+    public void DeleteClient()
+    {
+        if (selectedClient != null)
+        {
+            clientsToAdd.Add(selectedClient);
+            addedClients.Remove(selectedClient);
+            selectedClient = null;
+            datagrid.SelectedIndex = -1;
+        }
     }
 
     private void ChangeClass(int id)
@@ -88,7 +183,57 @@ public partial class AddClassWindow : Window
         group.name = nameText.Text;
         group.places = Convert.ToInt32(placesText.Text);
         group.course = (Course)courseBox.SelectedItem;
+        group.clients = addedClients.ToList();
         
         return group;
+    }
+
+    private void ClientsDataGrid_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0)
+        {
+            selectedClient = e.AddedItems[0] as Client;
+            Debug.WriteLine("CHANGEDD");
+        }
+    }
+
+    private void AddClientsDataGrid_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0)
+        {
+            selectedAddClient = e.AddedItems[0] as Client;
+            Debug.WriteLine("ADDCHANGEDD");
+        }
+    }
+
+    public void SetClientsGridCollumnName(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "id":
+                e.Column.IsVisible = false;
+                break;
+            case "firstName":
+                e.Column.Header = "Имя";
+                break;
+            case "surName":
+                e.Column.Header = "Фамилия";
+                break;
+            case "phone":
+                e.Column.Header = "Телефон";
+                break;
+            case "Birthday":
+                e.Column.Header = "День рождения";
+                break;
+            case "lastLanguage":
+                e.Column.Header = "Последний язык";
+                break;
+            case "languageLevel":
+                e.Column.Header = "Уровень языка";
+                break;
+            case "languageNeeds":
+                e.Column.Header = "Потребности";
+                break;
+        }
     }
 }

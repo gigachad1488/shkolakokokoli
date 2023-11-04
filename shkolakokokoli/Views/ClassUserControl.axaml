@@ -5,8 +5,13 @@
              xmlns:v="using:shkolakokokoli.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              Width="500" Height="50"
+			 x:DataType="v:ClassUserControl"
              x:Class="shkolakokokoli.Views.ClassUserControl">
-    <Grid Background="Bisque" ColumnDefinitions="*, *, *, Auto">
+	<Design.DataContext>
+		<v:ClassUserControl/>
+	</Design.DataContext>
+	
+    <Grid x:Name="rootGrid" Background="Bisque" ColumnDefinitions="*, *, *, Auto">
         <TextBlock x:Name="nameText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">8б</TextBlock>
         <TextBlock x:Name="courseText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">русский снюсенок</TextBlock>
         <TextBlock x:Name="placesText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2">32</TextBlock>
@@ -14,9 +19,10 @@
             <Button x:Name="popupButton" Background="WhiteSmoke" Margin="0, 0, 5, 0">
                 <TextBlock x:Name="popupButtonText" VerticalAlignment="Center" HorizontalAlignment="Center">▼</TextBlock>
             </Button>
-            <Popup x:Name="clientsPopup" WindowManagerAddShadowHint="True" IsOpen="True" Placement="Bottom" PlacementTarget="popupButton">
-                <v:ClientsPopup></v:ClientsPopup>
-            </Popup>
+			<Popup x:Name="clientsPopup" WindowManagerAddShadowHint="True" IsOpen="False" Placement="Bottom" PlacementTarget="rootGrid">		
+				<DataGrid SelectedIndex="-1" BorderBrush="Black" BorderThickness="1" x:Name="datagrid" IsReadOnly="True" Background="WhiteSmoke" AutoGenerateColumns="True" HorizontalAlignment="Center" Width="500" Height="200">
+				</DataGrid>
+			</Popup>
         </StackPanel>
         
     </Grid>
