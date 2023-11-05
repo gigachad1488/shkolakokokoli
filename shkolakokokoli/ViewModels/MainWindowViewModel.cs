@@ -27,7 +27,10 @@ public class MainWindowViewModel : ViewModelBase
     
     public static ObservableCollection<Course> Courses { get; set; } = new ObservableCollection<Course>();
     public static DataGridCollectionView CoursesView { get; set; } = new DataGridCollectionView(Courses);
-    
+
+    public static ObservableCollection<Lesson> Lessons { get; set; } = new ObservableCollection<Lesson>();
+    public static DataGridCollectionView LessonsView { get; set; } = new DataGridCollectionView(Lessons);
+
     public ISeries[] Series { get; set; } = new ISeries[]
     {
         new LineSeries<double>
@@ -77,6 +80,13 @@ public class MainWindowViewModel : ViewModelBase
         Courses.AddRange(Db.GetAllCourses());
         CoursesView.Refresh();
         //Console.Write(Courses[0].name);
+    }
+
+    public static void RefreshLessons()
+    {
+        Lessons.Clear();
+        Lessons.AddRange(Db.GetAllLessons());
+        LessonsView.Refresh();
     }
     
 }

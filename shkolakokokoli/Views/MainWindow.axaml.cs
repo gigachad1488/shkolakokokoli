@@ -14,7 +14,7 @@ namespace shkolakokokoli.Views;
 
 public partial class MainWindow : Window
 {
-    
+
     public MainWindow()
     {
         InitializeComponent();
@@ -24,13 +24,12 @@ public partial class MainWindow : Window
         SetLanguagesGrid();
         SetCoursesGrid();
         SetClassGrid();
-        griid.Children.Add(new ClassUserControl());
+        SetLessonsGrid();
     }
-    bool bd = true;
     #region Clients
 
     private Client selectedClient;
-    
+
     public void SetClientsGrid()
     {
         addClientButton.Click += delegate { ShowAddClientWindow(); };
@@ -41,19 +40,7 @@ public partial class MainWindow : Window
         clientsDataGrid.SelectionChanged += ClientsDataGrid_OnSelectionChanged;
         clientsDataGrid.AutoGeneratingColumn += SetClientsGridCollumnName;
 
-        if (bd)
-        { 
-            MainWindowViewModel.RefreshClients();
-        }
-        else
-        {
-            MainWindowViewModel.Clients.Add(new Client(0, "as1", "ab7", 123, DateTime.Now, "yta", "b1", "fds"));
-            MainWindowViewModel.Clients.Add(new Client(0, "as2", "ab8", 12334, DateTime.Now, "yta", "b1", "fds"));
-            MainWindowViewModel.Clients.Add(new Client(0, "as3", "ab9", 134523, DateTime.Now, "yta", "b1", "fds"));
-            MainWindowViewModel.Clients.Add(new Client(0, "as4", "ab0", 13223, DateTime.Now, "yta", "b1", "fds"));
-            MainWindowViewModel.Clients.Add(new Client(0, "as5", "ab12", 1123, DateTime.Now, "yta", "b1", "fds"));
-            MainWindowViewModel.Clients.Add(new Client(0, "as6", "ab56", 12003, DateTime.Now, "yta", "b1", "fds"));
-        }
+        MainWindowViewModel.RefreshClients();
 
         clientFilterText.TextChanged += delegate { OnClientFilterChanged(); };
 
@@ -104,7 +91,7 @@ public partial class MainWindow : Window
     }
 
     private void OnClientFilterChanged()
-    {       
+    {
         MainWindowViewModel.ClientsView.Refresh();
     }
 
@@ -135,7 +122,7 @@ public partial class MainWindow : Window
                 break;
             case "languageNeeds":
                 e.Column.Header = "Потребности";
-                break;          
+                break;
         }
     }
 
@@ -178,18 +165,7 @@ public partial class MainWindow : Window
         teachersDataGrid.SelectionChanged += TeachersDataGrid_OnSelectionChanged;
         teachersDataGrid.AutoGeneratingColumn += SetTeachersGridCollumnName;
 
-        if (bd)
-        { 
-            MainWindowViewModel.RefreshTeachers();
-        }
-        else
-        {
-            MainWindowViewModel.Teachers.Add(new Teacher(0, "as1", "ab7"));
-            MainWindowViewModel.Teachers.Add(new Teacher(1, "as2", "ab8"));
-            MainWindowViewModel.Teachers.Add(new Teacher(2, "as3", "ab2"));
-            MainWindowViewModel.Teachers.Add(new Teacher(3, "as4", "ab3"));
-            MainWindowViewModel.Teachers.Add(new Teacher(4, "as5", "ab71"));
-        }
+        MainWindowViewModel.RefreshTeachers();
 
         teacherFilterText.TextChanged += delegate { OnTeacherFilterChanged(); };
 
@@ -240,7 +216,7 @@ public partial class MainWindow : Window
     }
 
     private void OnTeacherFilterChanged()
-    {       
+    {
         MainWindowViewModel.TeachersView.Refresh();
     }
 
@@ -284,7 +260,7 @@ public partial class MainWindow : Window
             selectedTeacher = e.AddedItems[0] as Teacher;
         }
     }
-    
+
     #endregion
 
     #region Language
@@ -300,18 +276,7 @@ public partial class MainWindow : Window
         languagesDataGrid.SelectionChanged += LanguagesDataGrid_OnSelectionChanged;
         languagesDataGrid.AutoGeneratingColumn += SetLanguagesGridCollumnName;
 
-        if (bd)
-        { 
-            MainWindowViewModel.RefreshLanguages();
-        }
-        else
-        {
-            MainWindowViewModel.Languages.Add(new Language(0, "as1"));
-            MainWindowViewModel.Languages.Add(new Language(1, "as4"));
-            MainWindowViewModel.Languages.Add(new Language(2, "as3"));
-            MainWindowViewModel.Languages.Add(new Language(3, "as2"));
-            MainWindowViewModel.Languages.Add(new Language(4, "as5"));
-        }
+        MainWindowViewModel.RefreshLanguages();
 
         languageFilterText.TextChanged += delegate { OnLanguageFilterChanged(); };
 
@@ -362,7 +327,7 @@ public partial class MainWindow : Window
     }
 
     private void OnLanguageFilterChanged()
-    {       
+    {
         MainWindowViewModel.LanguagesView.Refresh();
     }
 
@@ -419,17 +384,7 @@ public partial class MainWindow : Window
         coursesDataGrid.SelectionChanged += CoursesDataGrid_OnSelectionChanged;
         coursesDataGrid.AutoGeneratingColumn += SetCoursesGridCollumnName;
 
-        if (bd)
-        { 
-            MainWindowViewModel.RefreshCourses();
-        }
-        else
-        {
-            MainWindowViewModel.Courses.Add(new Course(0, "342", MainWindowViewModel.Teachers[0], MainWindowViewModel.Languages[0], 255));
-            MainWindowViewModel.Courses.Add(new Course(1, "342ф", MainWindowViewModel.Teachers[1], MainWindowViewModel.Languages[1], 2355));
-            MainWindowViewModel.Courses.Add(new Course(2, "342и", MainWindowViewModel.Teachers[2], MainWindowViewModel.Languages[2], 2155));
-            MainWindowViewModel.Courses.Add(new Course(3, "342в", MainWindowViewModel.Teachers[3], MainWindowViewModel.Languages[3], 2535));
-        }
+        MainWindowViewModel.RefreshCourses();
 
         courseFilterText.TextChanged += delegate { OnCourseFilterChanged(); };
 
@@ -480,7 +435,7 @@ public partial class MainWindow : Window
     }
 
     private void OnCourseFilterChanged()
-    {       
+    {
         MainWindowViewModel.CoursesView.Refresh();
     }
 
@@ -541,22 +496,12 @@ public partial class MainWindow : Window
         addClassButton.Click += delegate { ShowAddClassWindow(); };
         redactClassButton.Click += delegate { ShowRedactClassWindow(); };
         deleteClassButton.Click += delegate { DeleteClass(); };
-        clearClassFilterButton.Click += delegate { classFilterText.Clear(); };
-        
+        //clearClassFilterButton.Click += delegate { classFilterText.Clear(); };
+
         classesBox.SelectionChanged += ClassesBox_OnSelectionChanged;
         //coursesDataGrid.AutoGeneratingColumn += SetCoursesGridCollumnName;
 
-        if (bd)
-        { 
-            RefreshClass();
-        }
-        else
-        {
-            MainWindowViewModel.Classes.Add(new Class(0, "4б", 15, new Course(0, "руски для тупых", new Teacher(0, "11", "1"), new Language(0, "руск"), 228), new Client(), new Client()));
-            MainWindowViewModel.Classes.Add(new Class(0, "5б", 16, new Course(0, "япоки для тупых", new Teacher(0, "22", "2"), new Language(0, "япоки"), 2281), new Client(), new Client()));
-            MainWindowViewModel.Classes.Add(new Class(0, "6б", 17, new Course(0, "татар для тупых", new Teacher(0, "33", "3"), new Language(0, "татар"), 2282), new Client(), new Client()));
-            MainWindowViewModel.Classes.Add(new Class(0, "7б", 18, new Course(0, "сга для тупых", new Teacher(0, "44", "4"), new Language(0, "сга"), 2283), new Client(), new Client()));
-        }
+        RefreshClass();
 
         //classFilterText.TextChanged += delegate { OnCourseFilterChanged(); };
 
@@ -614,8 +559,8 @@ public partial class MainWindow : Window
     }
 
     private void OnClassFilterChanged()
-    {       
-        
+    {
+
     }
 
     /*
@@ -668,6 +613,120 @@ public partial class MainWindow : Window
         {
             ClassUserControl ctrl = e.AddedItems[0] as ClassUserControl;
             selectedClass = ctrl.group;
+        }
+    }
+
+    #endregion
+
+    #region Lessons
+
+    private Lesson selectedLesson;
+    public void SetLessonsGrid()
+    {
+        addLessonButton.Click += delegate { ShowAddLessonWindow(); };
+        redactLessonButton.Click += delegate { ShowRedactLessonWindow(); };
+        deleteLessonButton.Click += delegate { DeleteLesson(); };
+        clearLessonsFilterButton.Click += delegate { lessonFilterText.Clear(); };
+
+        lessonsDataGrid.SelectionChanged += LessonsDataGrid_OnSelectionChanged;
+        lessonsDataGrid.AutoGeneratingColumn += SetLessonsGridCollumnName;
+
+        MainWindowViewModel.RefreshLessons();
+
+        lessonFilterText.TextChanged += delegate { OnLessonFilterChanged(); };
+
+        MainWindowViewModel.LessonsView = new DataGridCollectionView(MainWindowViewModel.Lessons);
+        MainWindowViewModel.LessonsView.Filter = LessonsFilter;
+        MainWindowViewModel.LessonsView.Refresh();
+    }
+
+    public void ShowAddLessonWindow()
+    {
+        AddLessonWindow adw = new AddLessonWindow();
+        adw.DataContext = this.DataContext;
+        adw.Closed += delegate { RefreshLesson(); };
+        adw.ShowDialog(this);
+    }
+
+    public void ShowRedactLessonWindow()
+    {
+        int id = lessonsDataGrid.SelectedIndex;
+        if (id != -1)
+        {
+            AddLessonWindow adw = new AddLessonWindow(selectedLesson);
+            adw.DataContext = this.DataContext;
+            adw.Closed += delegate { RefreshLesson(); };
+            adw.ShowDialog(this);
+        }
+    }
+
+    public void RefreshLesson()
+    {
+        MainWindowViewModel.RefreshLessons();
+    }
+
+    public async void DeleteLesson()
+    {
+        int id = lessonsDataGrid.SelectedIndex;
+        if (id != -1)
+        {
+            var mBox = MessageBoxManager.GetMessageBoxStandard("Удаление", "Удалить запись?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);
+            var result = await mBox.ShowAsPopupAsync(this);
+
+            if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
+            {
+                Db.DeleteLesson(selectedLesson);
+                RefreshLesson();
+            }
+        }
+    }
+
+    private void OnLessonFilterChanged()
+    {
+        MainWindowViewModel.LessonsView.Refresh();
+    }
+
+    public void SetLessonsGridCollumnName(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "id":
+                e.Column.IsVisible = false;
+                break;
+            case "Group":
+                e.Column.Header = "Группа";
+                break;
+            case "startTime":
+                e.Column.Header = "Дата начала";
+                break;
+            case "endTime":
+                e.Column.Header = "Дата конца";
+                break;
+        }
+    }
+
+    public bool LessonsFilter(object o)
+    {
+        if (lessonFilterText.Text != null && lessonFilterText.Text != string.Empty)
+        {
+            Lesson lesson = (Lesson)o;
+            if (lesson.group.ToString().Contains(lessonFilterText.Text) || lesson.startTime.ToString().Contains(lessonFilterText.Text) || lesson.endTime.ToString().Contains(lessonFilterText.Text))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void LessonsDataGrid_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0)
+        {
+            selectedLesson = e.AddedItems[0] as Lesson;
         }
     }
 

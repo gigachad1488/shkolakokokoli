@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -80,20 +81,11 @@ public partial class AddClassWindow : Window
         };
 
         addedClients.AddRange(group.clients);
-        List<Client> cta = MainWindowViewModel.Clients.ToList();
-        //Debug.WriteLine("fsadfa == " + clientsToAdd.Count);
-        for (int i = 0; i < cta.Count; i++)
+        clientsToAdd.AddRange(MainWindowViewModel.Clients);
+        
+        for (int i = 0; i < addedClients.Count; i++)
         {
-            for (int i1 = 0; i1 < addedClients.Count; i1++)
-            {
-                Client item = addedClients[i1];
-                //Debug.WriteLine("IIII = " + i);
-                if (item.id != cta[i].id)
-                {
-                    clientsToAdd.Add(cta[i]);
-                    break;
-                }
-            }
+            clientsToAdd.RemoveAll(x => x.id == addedClients[i].id);
         }
 
         datagrid.ItemsSource = addedClients;

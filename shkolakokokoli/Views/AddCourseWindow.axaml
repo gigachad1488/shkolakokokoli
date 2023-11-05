@@ -50,5 +50,4 @@
                         <TextBox TextAlignment="Start" FontSize="10" x:Name="priceText" Grid.Column="1" Width="120" MaxLength="12" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
                 </Grid>
         </Grid>
-    
 </Window>
