@@ -226,3 +226,13 @@ create index book_id
 
 create index user_id
     on BookRentals (user_id);
+
+    create table Lessons_attendance
+(
+    id         int primary key auto_increment,
+    lesson_id  int                not null,
+    client_id  int                not null,
+    attendance bool default false not null,
+    foreign key (lesson_id) references Lesson (id),
+    foreign key (client_id) references Client (id)
+);
