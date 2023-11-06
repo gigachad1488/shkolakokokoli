@@ -9,6 +9,8 @@ using shkolakokokoli.ViewModels;
 using Avalonia.Collections;
 using System.Diagnostics;
 using DynamicData;
+using System.Linq;
+using Avalonia.Extensions.Controls;
 
 namespace shkolakokokoli.Views;
 
@@ -416,6 +418,7 @@ public partial class MainWindow : Window
     public void RefreshCourse()
     {
         MainWindowViewModel.RefreshCourses();
+        RefreshClassFilter();
     }
 
     public async void DeleteCourse()
@@ -491,6 +494,8 @@ public partial class MainWindow : Window
     #region Classes
 
     private Class selectedClass;
+
+    public List<Class> classCourseFilter { get; set; } = new List<Class>();
     public void SetClassGrid()
     {
         addClassButton.Click += delegate { ShowAddClassWindow(); };
@@ -499,9 +504,15 @@ public partial class MainWindow : Window
         //clearClassFilterButton.Click += delegate { classFilterText.Clear(); };
 
         classesBox.SelectionChanged += ClassesBox_OnSelectionChanged;
+
+        classesFilterBox.SelectionChanged += ClassesFilterBox_SelectionChanged;      
+
         //coursesDataGrid.AutoGeneratingColumn += SetCoursesGridCollumnName;
 
         RefreshClass();
+        RefreshClassFilter();
+
+        classesFilterBox.SelectedIndex = 0;
 
         //classFilterText.TextChanged += delegate { OnCourseFilterChanged(); };
 
@@ -510,6 +521,23 @@ public partial class MainWindow : Window
         MainWindowViewModel.CoursesView.Filter = CoursesFilter;
         MainWindowViewModel.CoursesView.Refresh();
         */
+    }
+
+    private void ClassesFilterBox_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0)
+        {
+            if (classesFilterBox.SelectedIndex > 0)
+            {
+                Course course = (classesFilterBox.SelectedItem as Course);
+                classCourseFilter = MainWindowViewModel.Classes.Where(x => x.course.id == course.id).ToList();
+            }
+            else
+            {
+                classCourseFilter = MainWindowViewModel.Classes.ToList();
+            }
+            RefreshClass();
+        }
     }
 
     public void ShowAddClassWindow()
@@ -536,9 +564,34 @@ public partial class MainWindow : Window
     {
         classesBox.Items.Clear();
         MainWindowViewModel.RefreshClasses();
-        foreach (var item in MainWindowViewModel.Classes)
+        //RefreshClassFilter();
+        foreach (var item in classCourseFilter)
         {
             classesBox.Items.Add(new ClassUserControl(item));
+        }
+    }
+
+    public void RefreshClassFilter()
+    {
+        Course selcourse = classesFilterBox.SelectedItem as Course;
+        classesFilterBox.Items.Clear();
+        classesFilterBox.Items.Add(" ");
+        foreach (var item in MainWindowViewModel.Courses)
+        {
+            classesFilterBox.Items.Add(item);
+        }
+
+        if (classesFilterBox.SelectedIndex >= 0)
+        {
+            for (int i = 0; i < classesFilterBox.Items.Count; i++)
+            {
+                Course c = classesFilterBox.Items[i] as Course;
+                if (c.id == selcourse.id)
+                {
+                    classesFilterBox.SelectedIndex = i;
+                    return;
+                }
+            }
         }
     }
 
@@ -556,11 +609,6 @@ public partial class MainWindow : Window
                 RefreshClass();
             }
         }
-    }
-
-    private void OnClassFilterChanged()
-    {
-
     }
 
     /*

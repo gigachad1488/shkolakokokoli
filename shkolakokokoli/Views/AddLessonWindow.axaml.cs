@@ -58,6 +58,8 @@ namespace shkolakokokoli.Views
 
             //classesBox.SelectionChanged += delegate { ChangeClients(); };
             classesBox.IsEnabled = false;
+            startdatePicker.IsEnabled = false;
+            enddatePicker.IsEnabled = false;
 
             startdatePicker.SelectedTime = lesson.startTime.TimeOfDay;
             enddatePicker.SelectedTime = lesson.endTime.TimeOfDay;

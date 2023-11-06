@@ -10,7 +10,7 @@ namespace shkolakokokoli;
 
 public static class Db
 {
-    static bool s = true;
+    static bool s = false;
     static string const1 = "server = 10.10.1.24; uid=user_01;pwd=user01pro;database=pro1_6";
     static string const2 = "server = localhost; uid=user;pwd=qwerty228;database=world";
 
