@@ -2,12 +2,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:viewModels="clr-namespace:shkolakokokoli.ViewModels"
+        xmlns:viewModels="clr-namespace:shkolakokokoli.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="shkolakokokoli.Views.AddLessonWindow"
-        Title="Занятие"
-		Content=""
         x:DataType="viewModels:MainWindowViewModel"
+        Title="Занятие"
         SizeToContent="WidthAndHeight"
         BorderBrush="Black"
         BorderThickness="1"
@@ -18,7 +17,7 @@
 	<Design.DataContext>
 		<viewModels:MainWindowViewModel/>
 	</Design.DataContext>
-	<Grid Width="610" Height="270" x:Name="rootGrid" Opacity="0" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+	<Grid  Width="610" x:Name="rootGrid" Opacity="0" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
 		<Grid.Transitions>
 			<Transitions>
 				<DoubleTransition Property="Opacity" Duration="0:0:0.8"/>
@@ -36,15 +35,28 @@
 		<Grid Grid.Row="2" Height="40" Margin="15, 15, 15, 0" ColumnDefinitions="Auto, *">
 			<TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Группа*:</TextBlock>
 			<ComboBox FontSize="10" ItemsSource="{Binding Classes}" Width="200" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25" x:Name="classesBox" Grid.Column="1">
+				<ComboBox.Styles>
+					<Style>
+						<Style.Resources>
+							<SolidColorBrush x:Key="ComboBoxBackgroundDisabled">White</SolidColorBrush>
+						</Style.Resources>
+					</Style>
+				</ComboBox.Styles>
 			</ComboBox>
 		</Grid>
 		<Grid Grid.Row="3" Height="40" Margin="15, 5, 15, 0" ColumnDefinitions="Auto, *">
 			<TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Начало занятия*:</TextBlock>
 			<TimePicker x:Name="startdatePicker" Grid.Column="1" Width="250" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TimePicker>
 		</Grid>
-		<Grid Grid.Row="4" Height="40" Margin="15, 5, 15, 0" ColumnDefinitions="Auto, *">
+		<Grid Grid.Row="4" Height="40" Margin="15, 5, 15, 10" ColumnDefinitions="Auto, *">
 			<TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Конец занятия*:</TextBlock>
 			<TimePicker x:Name="enddatePicker" Grid.Column="1" Width="250" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TimePicker>
 		</Grid>
+		<Border Grid.Row="5" BorderBrush="Black" BorderThickness="0, 1, 0, 0">
+			<Grid Height="220" RowDefinitions="Auto, *">
+					<TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10, 5, 0, 5">Ученики</TextBlock>
+				<DataGrid x:Name="datagrid" Grid.Row="1" IsReadOnly="False" AutoGenerateColumns="True" BorderBrush="Black" BorderThickness="1" Margin="1, 7, 1 , 1"></DataGrid>
+			</Grid>
+		</Border>
 	</Grid>
 </Window>

@@ -10,7 +10,7 @@ namespace shkolakokokoli;
 
 public static class Db
 {
-    static bool s = false;
+    static bool s = true;
     static string const1 = "server = 10.10.1.24; uid=user_01;pwd=user01pro;database=pro1_6";
     static string const2 = "server = localhost; uid=user;pwd=qwerty228;database=world";
 
@@ -35,6 +35,7 @@ public static class Db
             connection3 = new MySqlConnection(const2);
             connection4 = new MySqlConnection(const2);
         }
+        
     }
 
     #region Clients
@@ -101,6 +102,9 @@ public static class Db
             connection.Open();
         }
 
+        MySqlCommand scommand = new MySqlCommand("set foreign_key_checks = 0", connection);
+        scommand.ExecuteNonQuery();
+        
         MySqlCommand command = new MySqlCommand("DELETE FROM Client WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", client.id);
         command.ExecuteNonQuery();
@@ -204,7 +208,10 @@ public static class Db
         {
             connection.Open();
         }
-
+        
+        MySqlCommand scommand = new MySqlCommand("set foreign_key_checks = 0", connection);
+        scommand.ExecuteNonQuery();
+        
         MySqlCommand command = new MySqlCommand("DELETE FROM Teacher WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", teacher.id);
         command.ExecuteNonQuery();
@@ -287,6 +294,9 @@ public static class Db
             connection.Open();
         }
 
+        MySqlCommand scommand = new MySqlCommand("set foreign_key_checks = 0", connection);
+        scommand.ExecuteNonQuery();
+        
         MySqlCommand command = new MySqlCommand("DELETE FROM Language WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", language.id);
         command.ExecuteNonQuery();
@@ -346,12 +356,12 @@ public static class Db
         command.Parameters.AddWithValue("@pl", group.places);
         command.Parameters.AddWithValue("@cr", group.course.id);
         command.ExecuteNonQuery();
-        command = new MySqlCommand("select LAST_INSERT_ID() from client", connection);
+        command = new MySqlCommand("select last_insert_id() from Class", connection);
         MySqlDataReader reader = command.ExecuteReader();
         reader.Read();
         int clid = reader.GetInt32(0);
-        connection2.Open();
-        MySqlCommand ccommand = new MySqlCommand("insert into client_on_class (client_id, class_id) value (@cid, @clid)", connection2);
+        reader.Close();
+        MySqlCommand ccommand = new MySqlCommand("insert into Client_on_class (client_id, class_id) value (@cid, @clid)", connection);
         foreach (var item in group.clients)
         {
             ccommand.Parameters.AddWithValue("@clid", clid);
@@ -359,7 +369,6 @@ public static class Db
             ccommand.ExecuteNonQuery();
             ccommand.Parameters.Clear();
         }
-        connection2.Close();
         connection.Close();
     }
 
@@ -409,7 +418,7 @@ public static class Db
         command.ExecuteNonQuery();
 
         List<int> prevClientsId = new List<int>();
-        command = new MySqlCommand("select * from client_on_class where class_id = @id", connection);
+        command = new MySqlCommand("select * from Сlient_on_class where class_id = @id", connection);
         command.Parameters.AddWithValue("@id", group.id);
         MySqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
@@ -419,7 +428,7 @@ public static class Db
 
         reader.Close();
 
-        command = new MySqlCommand("insert into client_on_class (client_id, class_id) value (@cid, @clid)", connection);
+        command = new MySqlCommand("insert into Сlient_on_class (client_id, class_id) value (@cid, @clid)", connection);
 
         List<int> clientsToRemove = new List<int>();
         List<int> clientsToAdd = new List<int>();
@@ -436,7 +445,10 @@ public static class Db
             }
         }
 
-        command = new MySqlCommand("delete from client_on_class where client_id = @cid and class_id = @clid", connection);
+        MySqlCommand scommand = new MySqlCommand("set foreign_key_checks = 0", connection);
+        scommand.ExecuteNonQuery();
+        
+        command = new MySqlCommand("delete from Сlient_on_class where client_id = @cid and class_id = @clid", connection);
 
         foreach (var prevstudent in prevClientsId)
         {
@@ -460,7 +472,9 @@ public static class Db
             connection.Open();
         }
 
-        MySqlCommand command = new MySqlCommand("delete from client_on_class where class_id = @id", connection);
+        MySqlCommand scommand = new MySqlCommand("set foreign_key_checks = 0", connection);
+        scommand.ExecuteNonQuery();
+        MySqlCommand command = new MySqlCommand("DELETE FROM Client_on_class where class_id = @id", connection);
         command.Parameters.AddWithValue("@id", group.id);
         command.ExecuteNonQuery();
 
@@ -574,6 +588,9 @@ public static class Db
             connection.Open();
         }
 
+        MySqlCommand scommand = new MySqlCommand("set foreign_key_checks = 0", connection);
+        scommand.ExecuteNonQuery();
+        
         MySqlCommand command = new MySqlCommand("DELETE FROM Course WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", course.id);
         command.ExecuteNonQuery();
@@ -600,8 +617,8 @@ public static class Db
 
             int cid = reader.GetInt32(1);
             lesson.group = GetClassAt(cid);
-            //Console.WriteLine("TECHER = " + course.teacher.firstName);
-
+            lesson.attendances = GetGroupAttendanceAt(lesson.id);
+            
             lessons.Add(lesson);
         }
         connection.Close();
@@ -617,11 +634,27 @@ public static class Db
             connection.Open();
         }
 
-        MySqlCommand command = new MySqlCommand("insert into lesson (class_id, time_start, time_end) VALUE (@clid, @times, @timee)", connection);
+        MySqlCommand command = new MySqlCommand("insert into Lesson (class_id, time_start, time_end) VALUE (@clid, @times, @timee)", connection);
         command.Parameters.AddWithValue("@clid", lesson.group.id);
         command.Parameters.AddWithValue("@times", lesson.startTime);
         command.Parameters.AddWithValue("@timee", lesson.endTime);
         command.ExecuteNonQuery();
+        
+        command = new MySqlCommand("select LAST_INSERT_ID() from Lesson", connection);
+        MySqlDataReader reader = command.ExecuteReader();
+        reader.Read();
+        int id = reader.GetInt32(0);
+        reader.Close();
+        
+        command = new MySqlCommand("insert into Lessons_attendance (lesson_id, client_id, attendance) value (@lid, @cid, @at)", connection);
+        foreach (var item in lesson.attendances)
+        {
+            command.Parameters.AddWithValue("@lid", id);
+            command.Parameters.AddWithValue("@cid", item.client);
+            command.Parameters.AddWithValue("@at", item.attendance);
+            command.ExecuteNonQuery();
+            command.Parameters.Clear();
+        }
         connection.Close();
     }
 
@@ -662,12 +695,23 @@ public static class Db
             connection.Open();
         }
 
-        MySqlCommand command = new MySqlCommand("update lesson set class_id = @clid, time_start = @times, time_end = @timee where id = @id", connection);
+        MySqlCommand command = new MySqlCommand("update Lesson set class_id = @clid, time_start = @times, time_end = @timee where id = @id", connection);
         command.Parameters.AddWithValue("@clid", lesson.group.id);
         command.Parameters.AddWithValue("@times", lesson.startTime);
         command.Parameters.AddWithValue("@timee", lesson.endTime);
         command.Parameters.AddWithValue("@id", lesson.id);
         command.ExecuteNonQuery();
+        
+        command = new MySqlCommand("update Lessons_attendance set attendance = @at where lesson_id = @lid and client_id = @cid", connection);
+        foreach (var item in lesson.attendances)
+        {
+            command.Parameters.AddWithValue("@lid", lesson.id);
+            command.Parameters.AddWithValue("@cid", item.client);
+            command.Parameters.AddWithValue("@at", item.attendance);
+            command.ExecuteNonQuery();
+            command.Parameters.Clear();
+        }
+        
         connection.Close();
     }
 
@@ -678,11 +722,43 @@ public static class Db
             connection.Open();
         }
 
+        MySqlCommand scommand = new MySqlCommand("set foreign_key_checks = 0", connection);
+        scommand.ExecuteNonQuery();
+        
         MySqlCommand command = new MySqlCommand("DELETE FROM Lesson WHERE id = @id", connection);
+        command.Parameters.AddWithValue("@id", lesson.id);
+        command.ExecuteNonQuery();
+
+        command = new MySqlCommand("delete from Lessons_attendance where lesson_id = @id", connection);
         command.Parameters.AddWithValue("@id", lesson.id);
         command.ExecuteNonQuery();
         connection.Close();
     }
 
+    public static List<Attendance> GetGroupAttendanceAt(int id)
+    {
+        if (connection3.State == ConnectionState.Closed)
+        {
+            connection3.Open();
+        }
+
+        List<Attendance> attendances = new List<Attendance>();
+        
+        MySqlCommand command = new MySqlCommand("select * from Lessons_attendance where lesson_id = @id", connection3);
+        command.Parameters.AddWithValue("@id", id);
+        MySqlDataReader reader = command.ExecuteReader();
+         while (reader.Read())
+        {
+            Attendance att = new Attendance();
+            att.id = reader.GetInt32(0);
+            att.lesson = reader.GetInt32(1);
+            att.client = reader.GetInt32(2);
+            att.attendance = reader.GetBoolean(3);
+            attendances.Add(att);
+        }
+         connection3.Close();
+
+         return attendances;
+    }
     #endregion
 }

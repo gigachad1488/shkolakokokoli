@@ -66,15 +66,7 @@
                 <TabControl Classes="tabChild" TabStripPlacement="Top">
                     <TabItem Header="Ученики">
                     <Grid  RowDefinitions="Auto, *">
-                    <Grid Grid.Row="0" Height="100" RowDefinitions="*, Auto">
-                        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Margin="10 ,0 ,0 ,0">
-                            <Grid Grid.Column="0" Width="250" ColumnDefinitions="Auto, *">
-                                <TextBlock Grid.Column="0" VerticalAlignment="Center">Без курсов:</TextBlock>
-								<CheckBox Grid.Column="1" CornerRadius="15" x:Name="clientsWOClassesRadioButton" Margin="10, 0, 0, 0">
-								</CheckBox>
-                            </Grid>
-                        </Grid>
-                        <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto, Auto, Auto">
+                        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
                             <Button x:Name="addClientButton" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
                             </Button>
@@ -92,7 +84,6 @@
                                 </Button>
                             </Grid>                                                
                         </Grid>
-                    </Grid>  
                     <Grid Grid.Row="1" Margin="0, 5, 0, 0">
                         <ScrollView VerticalScrollBarVisibility="Disabled">
                         <DataGrid  x:Name="clientsDataGrid" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding ClientsView}" >
@@ -180,15 +171,7 @@
                 <TabControl Classes="tabChild" TabStripPlacement="Top"  Margin="-12, -2, -12, 0">
                     <TabItem Header="Учителя">
                         <Grid  RowDefinitions="Auto, *">
-                    <Grid Grid.Row="0" Height="100" RowDefinitions="*, Auto">
-                        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Margin="10 ,0 ,0 ,0">
-                            <Grid Grid.Column="0" Width="250" ColumnDefinitions="Auto, *">
-                                <TextBlock Grid.Column="0" VerticalAlignment="Center">Без курсов:</TextBlock>
-								<CheckBox Grid.Column="1" CornerRadius="15" x:Name="teachersWOClassesRadioButton" Margin="10, 0, 0, 0">
-								</CheckBox>
-                            </Grid>
-                        </Grid>
-                        <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto, Auto, Auto">
+                        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
                             <Button x:Name="addTeacherButton" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
                             </Button>
@@ -206,7 +189,6 @@
                                 </Button>
                             </Grid>                                                
                         </Grid>
-                    </Grid>  
                     <Grid Grid.Row="1" Margin="0, 5, 0, 0">
                         <ScrollView VerticalScrollBarVisibility="Disabled">
                         <DataGrid  x:Name="teachersDataGrid" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding TeachersView}" >
@@ -217,15 +199,7 @@
                     </TabItem>
                     <TabItem Header="Языки">
                         <Grid RowDefinitions="Auto, *">
-                    <Grid Grid.Row="0" Height="100" RowDefinitions="*, Auto">
-                        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Margin="10 ,0 ,0 ,0">
-                            <Grid Grid.Column="0" Width="250" ColumnDefinitions="Auto, *">
-                                <TextBlock Grid.Column="0" VerticalAlignment="Center">Без курсов:</TextBlock>
-								<CheckBox Grid.Column="1" CornerRadius="15" x:Name="languagesWOClassesRadioButton" Margin="10, 0, 0, 0">
-								</CheckBox>
-                            </Grid>
-                        </Grid>
-                        <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto, Auto, Auto">
+                        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
                             <Button x:Name="addLanguageButton" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
                             </Button>
@@ -243,7 +217,6 @@
                                 </Button>
                             </Grid>                                                
                         </Grid>
-                    </Grid>  
                     <Grid Grid.Row="1" Margin="0, 5, 0, 0">
                         <ScrollView VerticalScrollBarVisibility="Disabled">
                         <DataGrid  x:Name="languagesDataGrid" AutoGenerateColumns="True" IsReadOnly="True" Margin="0, 0, 0, 10" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding LanguagesView}" >

@@ -9,6 +9,8 @@
         <entry key="shkolakokokoli/Views/AddClientWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
         <entry key="shkolakokokoli/Views/AddCourseWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
         <entry key="shkolakokokoli/Views/AddLanguageWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/Views/AddLessonWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
+        <entry key="shkolakokokoli/Views/AddLessonsWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
         <entry key="shkolakokokoli/Views/AddTeacherWindow.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
         <entry key="shkolakokokoli/Views/ClassUserControl.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />
         <entry key="shkolakokokoli/Views/ClientUserControl.axaml" value="shkolakokokoli/shkolakokokoli.csproj" />

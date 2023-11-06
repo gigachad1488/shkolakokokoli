@@ -11,6 +11,8 @@ namespace shkolakokokoli.Models
         public int id { get; set; }
         public Class group;
 
+        public List<Attendance> attendances = new List<Attendance>();
+
         public string Group
         {
             get
@@ -21,5 +23,10 @@ namespace shkolakokokoli.Models
 
         public DateTime startTime { get;  set; }
         public DateTime endTime { get; set; }
+
+        public override string ToString()
+        {
+            return group.ToString();
+        }
     }
 }

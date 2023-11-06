@@ -46,8 +46,8 @@
 		</Grid>
 		<Border Grid.Row="5" BorderBrush="Black" BorderThickness="0, 1, 0, 0">
 			<Grid Height="220" RowDefinitions="Auto, *">
-				<Grid Height="50" Width="80" HorizontalAlignment="Left" RowDefinitions="*, *">
-					<TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">Клиенты</TextBlock>
+				<Grid Grid.Row="0" Height="50" Width="80" HorizontalAlignment="Left" RowDefinitions="*, *">
+					<TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">Ученики</TextBlock>
 					<Grid Grid.Row="1" ColumnDefinitions="*, *">
 						<Button Width="30" Grid.Column="0" x:Name="addClientPopupButton" HorizontalAlignment="Center" Background="WhiteSmoke" BorderThickness="1" BorderBrush="Black">
 							<TextBlock VerticalAlignment="Center" FontWeight="Light" HorizontalAlignment="Center">+</TextBlock>

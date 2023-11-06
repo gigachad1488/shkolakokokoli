@@ -9,7 +9,7 @@
         BorderThickness="1"
         WindowStartupLocation="CenterScreen"
         SystemDecorations="Full"
-		Icon="/Assets/2skuf2.ico"
+        Icon="/Assets/2skuf2.ico"
         CanResize="False"
         Title="Язык">
     <Grid x:Name="rootGrid" Opacity="0" RowDefinitions="Auto, Auto, Auto">
