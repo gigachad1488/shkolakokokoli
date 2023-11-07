@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Avalonia.Collections;
 using DynamicData;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.VisualElements;
 using shkolakokokoli.Models;
 using shkolakokokoli.Views;
 using SkiaSharp;
@@ -31,16 +33,29 @@ public class MainWindowViewModel : ViewModelBase
     public static ObservableCollection<Lesson> Lessons { get; set; } = new ObservableCollection<Lesson>();
     public static DataGridCollectionView LessonsView { get; set; } = new DataGridCollectionView(Lessons);
 
-    public ISeries[] Series { get; set; } = new ISeries[]
+    public static ObservableCollection<AttendanceChart> AttendanceChart { get; set; } = new ObservableCollection<AttendanceChart>() 
+    {
+        new AttendanceChart(DateTime.Now, 5),
+        new AttendanceChart(new DateTime(2023, 07, 10), 15)
+    };
+
+    public ISeries[] Series { get; set; } =
     {
         new LineSeries<double>
         {
-            Values = new double[] {0, 4, 10, 12, 8, 2, -2},
-            Fill = new SolidColorPaint(new SKColor(0, 90, 120)),
-            Stroke = new SolidColorPaint(new SKColor(120, 152, 203)),
-            LineSmoothness = 50
+            Values = new double[] { 2, 1, 3, 5, 3, 4, 6 },
+            Fill = null
         }
     };
+
+    public LabelVisual Title { get; set; } =
+        new LabelVisual
+        {
+            Text = "My chart title",
+            TextSize = 25,
+            Padding = new LiveChartsCore.Drawing.Padding(15),
+            Paint = new SolidColorPaint(SKColors.DarkSlateGray)
+        };
 
     public MainWindowViewModel()
     {
@@ -87,6 +102,17 @@ public class MainWindowViewModel : ViewModelBase
         Lessons.Clear();
         Lessons.AddRange(Db.GetAllLessons());
         LessonsView.Refresh();
+        //AttendanceChart.Clear();
+
+        /*
+        foreach (var item in Lessons)
+        {
+            AttendanceChart ct = new AttendanceChart();
+            ct.date = new DateTime(item.startTime.Year, item.startTime.Month, item.startTime.Day);
+            ct.attendancesCount = item.attendances.Where(x => x.attendance == true).Count();
+            AttendanceChart.Add(ct);
+        }
+        */
     }
     
 }

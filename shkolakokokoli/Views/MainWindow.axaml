@@ -239,7 +239,7 @@
             </TabItem>
             <TabItem Header="Статистика">
                 <Grid>
-                    <lvc:CartesianChart x:Name="chart" Background="Black" Series="{Binding Series}"></lvc:CartesianChart>
+                    <lvc:CartesianChart  x:Name="chart" Title="{Binding Title}"  Series="{Binding Series}"></lvc:CartesianChart>
                 </Grid>
             </TabItem>       
             <TabItem Width="60" Margin="0, 7, 0, 7" IsEnabled="False" HorizontalAlignment="Right">

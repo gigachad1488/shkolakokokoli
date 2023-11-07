@@ -4,6 +4,7 @@ namespace shkolakokokoli.Models;
 
 public class Attendance
 {
+    internal readonly object attendances;
     public int id;
     
     public int client;
