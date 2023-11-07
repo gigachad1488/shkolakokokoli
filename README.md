@@ -227,7 +227,7 @@ create index book_id
 create index user_id
     on BookRentals (user_id);
 
-    create table Lessons_attendance
+create table Lessons_attendance
 (
     id         int primary key auto_increment,
     lesson_id  int                not null,
@@ -236,3 +236,6 @@ create index user_id
     foreign key (lesson_id) references Lesson (id),
     foreign key (client_id) references Client (id)
 );
+
+https://sites.google.com/khpk.ru/alinaviot/%D0%BC%D0%B4%D0%BA-01-01
+
