@@ -15,6 +15,8 @@ namespace shkolakokokoli.Views
     public partial class AddLessonWindow : Window
     {
         public ObservableCollection<ClientsAttendance> clat { get; set; } = new ObservableCollection<ClientsAttendance>();
+
+
         public AddLessonWindow()
         {
             InitializeComponent();
@@ -129,9 +131,11 @@ namespace shkolakokokoli.Views
             }
 
             lesson.group = (Class)classesBox.SelectedItem;
-            DateTime today = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            lesson.startTime = (DateTime)(today + startdatePicker.SelectedTime);
-            lesson.endTime = (DateTime)(today + enddatePicker.SelectedTime);
+
+                DateTime today = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                lesson.startTime = (DateTime)(today + startdatePicker.SelectedTime);
+                lesson.endTime = (DateTime)(today + enddatePicker.SelectedTime);
+            
 
             foreach (var item in clat)
             {

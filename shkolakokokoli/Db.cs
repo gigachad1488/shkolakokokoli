@@ -10,7 +10,7 @@ namespace shkolakokokoli;
 
 public static class Db
 {
-    static bool s = true;
+    static bool s = false;
     static string const1 = "server = 10.10.1.24; uid=user_01;pwd=user01pro;database=pro1_6";
     static string const2 = "server = localhost; uid=user;pwd=qwerty228;database=world";
 
@@ -509,8 +509,6 @@ public static class Db
             int lid = reader.GetInt32(3);
             course.language = GetLanguageAt(lid);
 
-            course.price = reader.GetInt32(4);
-
             courses.Add(course);
         }
         connection.Close();
@@ -526,11 +524,10 @@ public static class Db
             connection.Open();
         }
 
-        MySqlCommand command = new MySqlCommand("INSERT INTO Course (name, teacher_id, language_id, price) VALUES (@n, @ti, @li, @pr)", connection);
+        MySqlCommand command = new MySqlCommand("INSERT INTO Course (name, teacher_id, language_id) VALUES (@n, @ti, @li)", connection);
         command.Parameters.AddWithValue("@n", course.name);
         command.Parameters.AddWithValue("@ti", course.teacher.id);
         command.Parameters.AddWithValue("@li", course.language.id);
-        command.Parameters.AddWithValue("@pr", course.price);
         Console.Write(course.name);
         command.ExecuteNonQuery();
         connection.Close();
@@ -558,8 +555,6 @@ public static class Db
         int lid = reader.GetInt32(3);
         course.language = GetLanguageAt(lid);
 
-        course.price = reader.GetInt32(4);
-
         connection3.Close();
         return course;
     }
@@ -571,12 +566,11 @@ public static class Db
             connection.Open();
         }
 
-        MySqlCommand command = new MySqlCommand("UPDATE Course SET name = @n, teacher_id = @ti, language_id = @li, price = @pr WHERE id = @id", connection);
+        MySqlCommand command = new MySqlCommand("UPDATE Course SET name = @n, teacher_id = @ti, language_id = @li WHERE id = @id", connection);
         command.Parameters.AddWithValue("@id", course.id);
         command.Parameters.AddWithValue("@n", course.name);
         command.Parameters.AddWithValue("@ti", course.teacher.id);
         command.Parameters.AddWithValue("@li", course.language.id);
-        command.Parameters.AddWithValue("@pr", course.price);
         command.ExecuteNonQuery();
         connection.Close();
     }
@@ -695,14 +689,8 @@ public static class Db
             connection.Open();
         }
 
-        MySqlCommand command = new MySqlCommand("update Lesson set class_id = @clid, time_start = @times, time_end = @timee where id = @id", connection);
-        command.Parameters.AddWithValue("@clid", lesson.group.id);
-        command.Parameters.AddWithValue("@times", lesson.startTime);
-        command.Parameters.AddWithValue("@timee", lesson.endTime);
-        command.Parameters.AddWithValue("@id", lesson.id);
-        command.ExecuteNonQuery();
-        
-        command = new MySqlCommand("update Lessons_attendance set attendance = @at where lesson_id = @lid and client_id = @cid", connection);
+       
+        MySqlCommand command = new MySqlCommand("update Lessons_attendance set attendance = @at where lesson_id = @lid and client_id = @cid", connection);
         foreach (var item in lesson.attendances)
         {
             command.Parameters.AddWithValue("@lid", lesson.id);
@@ -760,5 +748,170 @@ public static class Db
 
          return attendances;
     }
+    #endregion
+
+    #region Payments
+
+    public static List<Payment> GetAllPayments()
+    {
+        if (connection.State == ConnectionState.Closed)
+        {
+            connection.Open();
+        }
+
+        List<Payment> payments = new List<Payment>();
+        MySqlCommand commang = new MySqlCommand("select * from Payment", connection);
+        MySqlDataReader reader = commang.ExecuteReader();
+        while (reader.Read())
+        {
+            payments.Add(new Payment(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2)));
+        }
+        connection.Close();
+
+        return payments;
+    }
+
+
+    public static void AddPayment(Payment payment)
+    {
+        if (connection.State == ConnectionState.Closed)
+        {
+            connection.Open();
+        }
+
+        MySqlCommand command = new MySqlCommand("insert into payment (name, price) VALUE (@nm, @pr)", connection);
+        command.Parameters.AddWithValue("@nm", payment.name);
+        command.Parameters.AddWithValue("@pr", payment.price);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+
+    
+    public static Payment GetPaymentAt(int id)
+    {
+        if (connection2.State == ConnectionState.Closed)
+        {
+            connection2.Open();
+        }
+
+        Payment payment = new Payment();
+        MySqlCommand command = new MySqlCommand("select * from payment where id = @id", connection2);
+        command.Parameters.AddWithValue("@id", id);
+        MySqlDataReader reader = command.ExecuteReader();
+        reader.Read();
+        payment.id = reader.GetInt32(0);
+        payment.name = reader.GetString(1);
+        payment.price = reader.GetInt32(2);
+        connection2.Close();
+        return payment;
+    }
+    
+
+    public static void ChangePayment(Payment payment)
+    {
+        if (connection.State == ConnectionState.Closed)
+        {
+            connection.Open();
+        }
+
+        MySqlCommand command = new MySqlCommand("update payment set name = @nm, price = @pr where id = @id", connection);
+        command.Parameters.AddWithValue("@id", payment.id);
+        command.Parameters.AddWithValue("@nm", payment.name);
+        command.Parameters.AddWithValue("@pr", payment.price);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+
+    public static void DeletePayment(Payment payment)
+    {
+        if (connection.State == ConnectionState.Closed)
+        {
+            connection.Open();
+        }
+
+        MySqlCommand scommand = new MySqlCommand("set foreign_key_checks = 0", connection);
+        scommand.ExecuteNonQuery();
+
+        MySqlCommand command = new MySqlCommand("delete from client_payment where payment = @id", connection);
+        command.Parameters.AddWithValue("@id", payment.id);
+        command.ExecuteNonQuery();
+
+        command = new MySqlCommand("delete from payment where id = @id", connection);
+        command.Parameters.AddWithValue("@id", payment.id);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+
+    public static List<ClientPayment> GetAllClientPayment()
+    {
+        List<ClientPayment> payments = new List<ClientPayment>();
+
+        connection.Open();
+
+        MySqlCommand command = new MySqlCommand("select * from client_payment", connection);
+        MySqlDataReader reader = command.ExecuteReader();
+
+        while (reader.Read()) 
+        {
+            ClientPayment cpayment = new ClientPayment();
+            cpayment.id = reader.GetInt32(0);
+            cpayment.client = GetClientAt(reader.GetInt32(1));
+            cpayment.payment = GetPaymentAt(reader.GetInt32(2));
+            cpayment.isPaid = reader.GetBoolean(3);
+            payments.Add(cpayment);
+        }
+
+        connection.Close();
+
+        return payments;
+    }
+
+    public static void AddClientPayment(ClientPayment cpayment)
+    {
+        if (connection.State == ConnectionState.Closed)
+        {
+            connection.Open();
+        }
+
+        MySqlCommand command = new MySqlCommand("insert into client_payment (client, payment, isPaid) VALUE (@cid, @id, @pd)", connection);
+        command.Parameters.AddWithValue("@id", cpayment.payment.id);
+        command.Parameters.AddWithValue("@cid", cpayment.client.id);
+        command.Parameters.AddWithValue("@pd", cpayment.isPaid);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+
+    public static void ChangeClientPayment(ClientPayment cpayment)
+    {
+        if (connection.State == ConnectionState.Closed)
+        {
+            connection.Open();
+        }
+
+        MySqlCommand command = new MySqlCommand("update client_payment set client = @cid, payment = @id, isPaid = @pd", connection);
+        command.Parameters.AddWithValue("@id", cpayment.payment.id);
+        command.Parameters.AddWithValue("@cid", cpayment.client.id);
+        command.Parameters.AddWithValue("@pd", cpayment.isPaid);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+
+    public static void DeleteClientPayment(ClientPayment cpayment)
+    {
+        if (connection.State == ConnectionState.Closed)
+        {
+            connection.Open();
+        }
+
+        MySqlCommand scommand = new MySqlCommand("set foreign_key_checks = 0", connection);
+        scommand.ExecuteNonQuery();
+
+        MySqlCommand command = new MySqlCommand("delete from client_payment where payment = @id and client = @cid", connection);
+        command.Parameters.AddWithValue("@id", cpayment.payment.id);
+        command.Parameters.AddWithValue("@cid", cpayment.client.id);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+
     #endregion
 }

@@ -41,13 +41,9 @@
                         <ComboBox FontSize="10" ItemsSource="{Binding Teachers}" Width="200" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25" x:Name="teachersBox" Grid.Column="1">
                         </ComboBox>
                 </Grid>
-                <Grid Grid.Row="4" Height="40" Margin="15, 5, 15, 0" ColumnDefinitions="Auto, *">
+                <Grid Grid.Row="4" Height="40" Margin="15, 5, 15, 10" ColumnDefinitions="Auto, *">
                         <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Язык*:</TextBlock>
                         <ComboBox FontSize="10" x:Name="languagesBox" ItemsSource="{Binding Languages}" Grid.Column="1" Width="200" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></ComboBox>
-                </Grid>
-                <Grid Grid.Row="5" Height="40" Margin="15, 5, 15, 10" ColumnDefinitions="Auto, *">
-                        <TextBlock Width="180" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14">Цена*:</TextBlock>
-                        <TextBox TextAlignment="Start" FontSize="10" x:Name="priceText" Grid.Column="1" Width="120" MaxLength="12" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="25"></TextBox>
                 </Grid>
         </Grid>
 </Window>

@@ -62,9 +62,7 @@ public partial class AddCourseWindow : Window
             }
         };
 
-        nameText.Text = course.name;
-        priceText.Text = course.price.ToString();
-    }
+        nameText.Text = course.name;    }
 
     private void ChangeCourse(int id)
     {
@@ -98,7 +96,7 @@ public partial class AddCourseWindow : Window
 
         int price;
         
-        if (nameText.Text == string.Empty || priceText.Text == string.Empty || !Int32.TryParse(priceText.Text, out price) || teachersBox.SelectedIndex == -1 || languagesBox.SelectedIndex == -1)
+        if (nameText.Text == string.Empty || teachersBox.SelectedIndex == -1 || languagesBox.SelectedIndex == -1)
         {
             return null;
         }
@@ -106,7 +104,6 @@ public partial class AddCourseWindow : Window
         course.name = nameText.Text;
         course.teacher = (Teacher)teachersBox.SelectedItem;
         course.language = (Language)languagesBox.SelectedItem;
-        course.price = price;
         
         return course;
     }

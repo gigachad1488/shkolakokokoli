@@ -33,6 +33,7 @@ public partial class MainWindow : Window
         SetCoursesGrid();
         SetClassGrid();
         SetLessonsGrid();
+        SetPaymentsGrid();
         UpdateChart();
     }
     #region Clients
@@ -476,7 +477,7 @@ public partial class MainWindow : Window
         if (courseFilterText.Text != null && courseFilterText.Text != string.Empty)
         {
             Course course = (Course)o;
-            if (course.name.Contains(courseFilterText.Text) || course.language.ToString().Contains(courseFilterText.Text) || course.teacher.ToString().Contains(courseFilterText.Text) || course.price.ToString().Contains(courseFilterText.Text))
+            if (course.name.Contains(courseFilterText.Text) || course.language.ToString().Contains(courseFilterText.Text) || course.teacher.ToString().Contains(courseFilterText.Text))
             {
                 return true;
             }
@@ -814,7 +815,215 @@ public partial class MainWindow : Window
     }
 
     #endregion
-    
+
+    #region Payments
+
+    private Payment selectedPayment;
+    private ClientPayment selectedCPayment;
+    public void SetPaymentsGrid()
+    {
+        addPaymentButton.Click += delegate { ShowAddPaymentWindow(); };
+        redactPaymentButton.Click += delegate { ShowRedactPaymentWindow(); };
+        deletePaymentButton.Click += delegate { DeletePayment(); };
+        clearPaymentsFilterButton.Click += delegate { paymentFilterText.Clear(); };
+        addCPaymentButton.Click += delegate { ShowAddCPaymentWindow(); };
+        redactCPaymentButton.Click += delegate { ShowRedactCPaymentWindow(); };
+        deleteCPaymentButton.Click += delegate { DeleteCPayment(); };
+        clearCPaymentsFilterButton.Click += delegate { cpaymentFilterText.Clear(); };
+
+        paymentsDataGrid.SelectionChanged += PaymentsDataGrid_OnSelectionChanged;
+        paymentsDataGrid.AutoGeneratingColumn += SetPaymentsGridCollumnName;
+        cpaymentsDataGrid.SelectionChanged += CPaymentsDataGrid_OnSelectionChanged;
+        cpaymentsDataGrid.AutoGeneratingColumn += SetСPaymentsGridCollumnName;
+
+        MainWindowViewModel.RefreshPayments();
+        MainWindowViewModel.RefreshCPayments();
+
+        paymentFilterText.TextChanged += delegate { OnPaymentFilterChanged(); };
+        cpaymentFilterText.TextChanged += delegate { OnCPaymentFilterChanged(); };
+
+        MainWindowViewModel.PaymentsView = new DataGridCollectionView(MainWindowViewModel.Payments);
+        MainWindowViewModel.PaymentsView.Filter = PaymentsFilter;
+        MainWindowViewModel.PaymentsView.Refresh();
+        MainWindowViewModel.ClientPaymentsView = new DataGridCollectionView(MainWindowViewModel.ClientPayments);
+        MainWindowViewModel.ClientPaymentsView.Filter = CPaymentsFilter;
+        MainWindowViewModel.ClientPaymentsView.Refresh();
+    }
+
+    public void ShowAddPaymentWindow()
+    {
+        AddPaymentWindow adw = new AddPaymentWindow();
+        //adw.DataContext = this.DataContext;
+        adw.Closed += delegate { RefreshPayment(); };
+        adw.ShowDialog(this);
+    }
+
+    public void ShowAddCPaymentWindow()
+    {
+        AddCPaymentWindow adw = new AddCPaymentWindow();
+        adw.DataContext = this.DataContext;
+        adw.Closed += delegate { RefreshPayment(); };
+        adw.ShowDialog(this);
+    }
+
+    public void ShowRedactPaymentWindow()
+    {
+        int id = paymentsDataGrid.SelectedIndex;
+        if (id != -1)
+        {
+            AddPaymentWindow adw = new AddPaymentWindow(selectedPayment);
+            //adw.DataContext = this.DataContext;
+            adw.Closed += delegate { RefreshPayment(); };
+            adw.ShowDialog(this);
+        }
+    }
+
+    public void ShowRedactCPaymentWindow()
+    {
+        int id = cpaymentsDataGrid.SelectedIndex;
+        if (id != -1)
+        {
+            AddCPaymentWindow adw = new AddCPaymentWindow(selectedCPayment);
+            adw.DataContext = this.DataContext;
+            adw.Closed += delegate { RefreshCPayment(); };
+            adw.ShowDialog(this);
+        }
+    }
+
+    public void RefreshPayment()
+    {
+        MainWindowViewModel.RefreshPayments();
+    }
+
+    public void RefreshCPayment()
+    {
+        MainWindowViewModel.RefreshCPayments();
+    }
+
+    public async void DeletePayment()
+    {
+        int id = paymentsDataGrid.SelectedIndex;
+        if (id != -1)
+        {
+            var mBox = MessageBoxManager.GetMessageBoxStandard("Удаление", "Удалить запись?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);
+            var result = await mBox.ShowAsPopupAsync(this);
+
+            if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
+            {
+                Db.DeletePayment(selectedPayment);
+                RefreshPayment();
+            }
+        }
+    }
+
+    public async void DeleteCPayment()
+    {
+        int id = paymentsDataGrid.SelectedIndex;
+        if (id != -1)
+        {
+            var mBox = MessageBoxManager.GetMessageBoxStandard("Удаление", "Удалить запись?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);
+            var result = await mBox.ShowAsPopupAsync(this);
+
+            if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
+            {
+                Db.DeleteClientPayment(selectedCPayment);
+                RefreshCPayment();
+            }
+        }
+    }
+
+    private void OnPaymentFilterChanged()
+    {
+        MainWindowViewModel.PaymentsView.Refresh();
+    }
+
+    private void OnCPaymentFilterChanged()
+    {
+        MainWindowViewModel.ClientPaymentsView.Refresh();
+    }
+
+    public void SetPaymentsGridCollumnName(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "name":
+                e.Column.Header = "Название";
+                break;
+            case "price":
+                e.Column.Header = "Цена";
+                break;
+        }
+    }
+
+    public void SetСPaymentsGridCollumnName(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "Client":
+                e.Column.Header = "Ученик";
+                break;
+            case "Payment":
+                e.Column.Header = "Услуга";
+                break;
+            case "isPaid":
+                e.Column.Header = "Оплачено";
+                break;
+        }
+    }
+
+    public bool PaymentsFilter(object o)
+    {
+
+        if (paymentFilterText.Text != null && paymentFilterText.Text != string.Empty)
+        {
+            Payment payment = (Payment)o;
+            if (payment.name.Contains(paymentFilterText.Text) || payment.price.ToString().Contains(paymentFilterText.Text))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public bool CPaymentsFilter(object o)
+    {
+        if (cpaymentFilterText.Text != null && cpaymentFilterText.Text != string.Empty)
+        {
+            ClientPayment cpayment = (ClientPayment)o;
+            if (cpayment.client.ToString().Contains(cpaymentFilterText.Text) || cpayment.payment.ToString().Contains(cpaymentFilterText.Text))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void PaymentsDataGrid_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0)
+        {
+            selectedPayment = e.AddedItems[0] as Payment;
+        }
+    }
+
+    private void CPaymentsDataGrid_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0)
+        {
+            selectedCPayment = e.AddedItems[0] as ClientPayment;
+        }
+    }
+
+    #endregion
+
     public void UpdateChart()
     {
         chart.YAxes = new Axis[]

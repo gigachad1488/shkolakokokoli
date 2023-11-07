@@ -37,6 +37,12 @@ public class MainWindowViewModel : ViewModelBase
     public static ObservableCollection<Lesson> Lessons { get; set; } = new ObservableCollection<Lesson>();
     public static DataGridCollectionView LessonsView { get; set; } = new DataGridCollectionView(Lessons);
 
+    public static ObservableCollection<Payment> Payments { get; set; } = new ObservableCollection<Payment>();
+    public static DataGridCollectionView PaymentsView { get; set; } = new DataGridCollectionView(Payments);
+
+    public static ObservableCollection<ClientPayment> ClientPayments { get; set; } = new ObservableCollection<ClientPayment>();
+    public static DataGridCollectionView ClientPaymentsView { get; set; } = new DataGridCollectionView(ClientPayments);
+
     public static ObservableCollection<AttendanceChart> AttendanceCharts { get; set; } =
         new ObservableCollection<AttendanceChart>();
     
@@ -133,6 +139,22 @@ public class MainWindowViewModel : ViewModelBase
         Courses.Clear();
         Courses.AddRange(Db.GetAllCourses());
         CoursesView.Refresh();
+        //Console.Write(Courses[0].name);
+    }
+
+    public static void RefreshPayments()
+    {
+        Payments.Clear();
+        Payments.AddRange(Db.GetAllPayments());
+        PaymentsView.Refresh();
+        //Console.Write(Courses[0].name);
+    }
+
+    public static void RefreshCPayments()
+    {
+        ClientPayments.Clear();
+        ClientPayments.AddRange(Db.GetAllClientPayment());
+        ClientPaymentsView.Refresh();
         //Console.Write(Courses[0].name);
     }
 

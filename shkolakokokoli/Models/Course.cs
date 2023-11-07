@@ -26,8 +26,6 @@ public class Course
         }
     }
 
-    public int price { get; set; }
-
     public Course()
     {}
     public Course(int id, string name, Teacher teacher, Language language, int price)
@@ -36,8 +34,6 @@ public class Course
         this.name = name;
         this.teacher = teacher;
         this.language = language;
-        Debug.WriteLine("ASDASDCICER = " + teacher.firstName);
-        this.price = price;
     }
 
     public override string ToString()
