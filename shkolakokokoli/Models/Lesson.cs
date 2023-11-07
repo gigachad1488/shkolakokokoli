@@ -24,6 +24,11 @@ namespace shkolakokokoli.Models
         public DateTime startTime { get;  set; }
         public DateTime endTime { get; set; }
 
+        public string shortDate
+        {
+            get { return new DateTime(startTime.Year, startTime.Month, startTime.Day).ToShortDateString(); }
+        }
+
         public override string ToString()
         {
             return group.ToString();

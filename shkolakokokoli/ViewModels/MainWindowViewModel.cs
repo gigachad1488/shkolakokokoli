@@ -7,7 +7,11 @@ using DynamicData;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.Painting.Effects;
 using LiveChartsCore.SkiaSharpView.VisualElements;
+using LiveChartsCore.SkiaSharpView.SKCharts;
+using NP.Utilities;
+using PCLUntils.IEnumerables;
 using shkolakokokoli.Models;
 using shkolakokokoli.Views;
 using SkiaSharp;
@@ -33,30 +37,65 @@ public class MainWindowViewModel : ViewModelBase
     public static ObservableCollection<Lesson> Lessons { get; set; } = new ObservableCollection<Lesson>();
     public static DataGridCollectionView LessonsView { get; set; } = new DataGridCollectionView(Lessons);
 
-    public static ObservableCollection<AttendanceChart> AttendanceChart { get; set; } = new ObservableCollection<AttendanceChart>() 
-    {
-        new AttendanceChart(DateTime.Now, 5),
-        new AttendanceChart(new DateTime(2023, 07, 10), 15)
-    };
-
-    public ISeries[] Series { get; set; } =
-    {
-        new LineSeries<double>
-        {
-            Values = new double[] { 2, 1, 3, 5, 3, 4, 6 },
-            Fill = null
-        }
-    };
-
+    public static ObservableCollection<AttendanceChart> AttendanceCharts { get; set; } =
+        new ObservableCollection<AttendanceChart>();
+    
     public LabelVisual Title { get; set; } =
         new LabelVisual
         {
-            Text = "My chart title",
-            TextSize = 25,
-            Padding = new LiveChartsCore.Drawing.Padding(15),
+            Text = "Посещаемость",
+            TextSize = 10,
+            Padding = new LiveChartsCore.Drawing.Padding(5),
             Paint = new SolidColorPaint(SKColors.DarkSlateGray)
         };
+    
+    /*
+     
+     public ISeries[] Series { get; set; } =
+       {
+       new ColumnSeries<int>
+       {
+       Values = AttendanceCharts.Select(x => x.attendancesCount),
+       }
+       };
+    
+    public Axis[] XAxes { get; set; }
+        = new Axis[]
+        {
+            new Axis
+            {
+                Name = "Дата",
+                NamePaint = new SolidColorPaint(SKColors.Black), 
+                
+                Labels = AttendanceCharts.Select(x => x.Date).ToList(),
 
+                LabelsPaint = new SolidColorPaint(SKColors.Blue), 
+                TextSize = 10,
+
+                SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray) { StrokeThickness = 2 }  
+            }
+        };
+    
+    public Axis[] YAxes { get; set; }
+        = new Axis[]
+        {
+            new Axis
+            {
+                Name = "Посещаемость",
+                NamePaint = new SolidColorPaint(SKColors.Red), 
+
+                LabelsPaint = new SolidColorPaint(SKColors.Green), 
+                TextSize = 20,
+
+                SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray) 
+                { 
+                    StrokeThickness = 2, 
+                    PathEffect = new DashEffect(new float[] { 3, 3 }) 
+                } 
+            }
+        };
+
+*/
     public MainWindowViewModel()
     {
 
@@ -102,17 +141,33 @@ public class MainWindowViewModel : ViewModelBase
         Lessons.Clear();
         Lessons.AddRange(Db.GetAllLessons());
         LessonsView.Refresh();
-        //AttendanceChart.Clear();
+        AttendanceCharts.Clear();
 
-        /*
-        foreach (var item in Lessons)
+        HashSet<string> dates = new HashSet<string>();
+        dates = Lessons.Select(x => x.shortDate).ToHashSet();
+        string[] dts = dates.ToArray();
+
+        int[] atts = new int[dts.Length];
+
+        for (int i = 0; i < dts.Length; i++)
         {
-            AttendanceChart ct = new AttendanceChart();
-            ct.date = new DateTime(item.startTime.Year, item.startTime.Month, item.startTime.Day);
-            ct.attendancesCount = item.attendances.Where(x => x.attendance == true).Count();
-            AttendanceChart.Add(ct);
+            int count = 0;
+            List<List<Attendance>> a = Lessons.Where(x => x.shortDate == dts[i]).Select(x => x.attendances).ToList();
+            foreach (var item in a)
+            {
+                int cnt = item.Where(x => x.attendance == true).Count();
+                count += cnt;
+            }
+
+            atts[i] = count;
         }
-        */
+        
+        for (int i = 0; i < atts.Length; i++)
+        {
+            AttendanceCharts.Add(new AttendanceChart(DateTime.Parse(dts[i]), atts[i]));
+        }
+        
     }
+    
     
 }

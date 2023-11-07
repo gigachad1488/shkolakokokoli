@@ -11,6 +11,12 @@ using System.Diagnostics;
 using DynamicData;
 using System.Linq;
 using Avalonia.Extensions.Controls;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Avalonia;
+using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.Painting.Effects;
+using SkiaSharp;
 
 namespace shkolakokokoli.Views;
 
@@ -27,6 +33,7 @@ public partial class MainWindow : Window
         SetCoursesGrid();
         SetClassGrid();
         SetLessonsGrid();
+        UpdateChart();
     }
     #region Clients
 
@@ -505,10 +512,13 @@ public partial class MainWindow : Window
 
         classesBox.SelectionChanged += ClassesBox_OnSelectionChanged;
 
-        classesFilterBox.SelectionChanged += ClassesFilterBox_SelectionChanged;      
+        classesFilterBox.SelectionChanged += ClassesFilterBox_SelectionChanged;
+        
+        MainWindowViewModel.RefreshClasses();
 
         //coursesDataGrid.AutoGeneratingColumn += SetCoursesGridCollumnName;
 
+        RefreshClassCourseFilter();
         RefreshClass();
         RefreshClassFilter();
 
@@ -527,16 +537,21 @@ public partial class MainWindow : Window
     {
         if (e.AddedItems.Count > 0)
         {
-            if (classesFilterBox.SelectedIndex > 0)
-            {
-                Course course = (classesFilterBox.SelectedItem as Course);
-                classCourseFilter = MainWindowViewModel.Classes.Where(x => x.course.id == course.id).ToList();
-            }
-            else
-            {
-                classCourseFilter = MainWindowViewModel.Classes.ToList();
-            }
+            RefreshClassCourseFilter();
             RefreshClass();
+        }
+    }
+
+    public void RefreshClassCourseFilter()
+    {
+        if (classesFilterBox.SelectedIndex > 0)
+        {
+            Course course = (classesFilterBox.SelectedItem as Course);
+            classCourseFilter = MainWindowViewModel.Classes.Where(x => x.course.id == course.id).ToList();
+        }
+        else
+        {
+            classCourseFilter = MainWindowViewModel.Classes.ToList();
         }
     }
 
@@ -544,8 +559,10 @@ public partial class MainWindow : Window
     {
         AddClassWindow adw = new AddClassWindow();
         adw.DataContext = this.DataContext;
-        adw.Closed += delegate { RefreshClass(); };
+        adw.Closed += delegate { MainWindowViewModel.RefreshClasses();
+            RefreshClassCourseFilter(); RefreshClass();  };
         adw.ShowDialog(this);
+        
     }
 
     public void ShowRedactClassWindow()
@@ -555,7 +572,8 @@ public partial class MainWindow : Window
         {
             AddClassWindow adw = new AddClassWindow(selectedClass);
             adw.DataContext = this.DataContext;
-            adw.Closed += delegate { RefreshClass(); };
+            adw.Closed += delegate { MainWindowViewModel.RefreshClasses();
+                RefreshClassCourseFilter(); RefreshClass(); };
             adw.ShowDialog(this);
         }
     }
@@ -563,8 +581,6 @@ public partial class MainWindow : Window
     public void RefreshClass()
     {
         classesBox.Items.Clear();
-        MainWindowViewModel.RefreshClasses();
-        //RefreshClassFilter();
         foreach (var item in classCourseFilter)
         {
             classesBox.Items.Add(new ClassUserControl(item));
@@ -573,26 +589,43 @@ public partial class MainWindow : Window
 
     public void RefreshClassFilter()
     {
-        Course selcourse = classesFilterBox.SelectedItem as Course;
-        classesFilterBox.Items.Clear();
-        classesFilterBox.Items.Add(" ");
-        foreach (var item in MainWindowViewModel.Courses)
+        Course selcourse = new Course();
+        if (classesFilterBox.SelectedIndex > 0)
         {
-            classesFilterBox.Items.Add(item);
+            selcourse = classesFilterBox.SelectedItem as Course;
         }
 
-        if (classesFilterBox.SelectedIndex >= 0)
-        {
-            for (int i = 0; i < classesFilterBox.Items.Count; i++)
+        try
             {
-                Course c = classesFilterBox.Items[i] as Course;
-                if (c.id == selcourse.id)
+                classesFilterBox.Items.Clear();
+            }
+            catch
+            {
+            }
+
+
+            classesFilterBox.Items.Add(" ");
+            foreach (var item in MainWindowViewModel.Courses)
+            {
+                classesFilterBox.Items.Add(item);
+            }
+
+            if (classesFilterBox.SelectedIndex > 0)
+            {
+                if (classesFilterBox.SelectedIndex >= 0 && selcourse != null)
                 {
-                    classesFilterBox.SelectedIndex = i;
-                    return;
+                    for (int i = 1; i < classesFilterBox.Items.Count; i++)
+                    {
+                        Course c = classesFilterBox.Items[i] as Course;
+                        if (c.id == selcourse.id)
+                        {
+                            classesFilterBox.SelectedIndex = i;
+                            return;
+                        }
+                    }
                 }
             }
-        }
+
     }
 
     public async void DeleteClass()
@@ -606,7 +639,8 @@ public partial class MainWindow : Window
             if (result == MsBox.Avalonia.Enums.ButtonResult.Yes)
             {
                 Db.DeleteClass(selectedClass);
-                RefreshClass();
+                MainWindowViewModel.RefreshClasses();
+                RefreshClassCourseFilter(); RefreshClass();
             }
         }
     }
@@ -711,6 +745,7 @@ public partial class MainWindow : Window
     public void RefreshLesson()
     {
         MainWindowViewModel.RefreshLessons();
+        UpdateChart();
     }
 
     public async void DeleteLesson()
@@ -779,4 +814,49 @@ public partial class MainWindow : Window
     }
 
     #endregion
+    
+    public void UpdateChart()
+    {
+        chart.YAxes = new Axis[]
+        {
+            new Axis
+            {
+                Name = "Посещаемость",
+                NamePaint = new SolidColorPaint(SKColors.Red), 
+
+                LabelsPaint = new SolidColorPaint(SKColors.Green), 
+                TextSize = 20,
+
+                SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray) 
+                { 
+                    StrokeThickness = 2, 
+                    PathEffect = new DashEffect(new float[] { 3, 3 }) 
+                } 
+            }
+        };
+        
+        chart.XAxes = new Axis[]
+        {
+            new Axis
+            {
+                Name = "Дата",
+                NamePaint = new SolidColorPaint(SKColors.Black), 
+                
+                Labels = MainWindowViewModel.AttendanceCharts.Select(x => x.Date).ToList(),
+
+                LabelsPaint = new SolidColorPaint(SKColors.Blue), 
+                TextSize = 10,
+
+                SeparatorsPaint = new SolidColorPaint(SKColors.LightSlateGray) { StrokeThickness = 2 }  
+            }
+        };
+        
+        chart.Series = new ISeries[]
+    {
+        new ColumnSeries<int>
+        {
+            Values = MainWindowViewModel.AttendanceCharts.Select(x => x.attendancesCount),
+        }
+    };
+    }
 }

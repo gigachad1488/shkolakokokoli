@@ -93,7 +93,7 @@
                 </Grid>
                     </TabItem>
                     <TabItem Header="Классы">
-                        <Grid  RowDefinitions="Auto, *">
+                        <Grid  RowDefinitions="Auto, Auto, *">
                             <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto, Auto, Auto">
                                 <Button x:Name="addClassButton" BorderThickness="1" BorderBrush="Black" Grid.Column="0" Background="WhiteSmoke" VerticalAlignment="Stretch" Width="100" Margin="10, 5, 0, 5">
                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Light">Создать</TextBlock>
@@ -107,20 +107,18 @@
 								<Grid Margin="15, 0, 0, 0" Grid.Column="3" ColumnDefinitions="Auto, *">
 									<TextBlock Width="45" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">Курс:</TextBlock>
 									<ComboBox Grid.Column="1" SelectedIndex="0" x:Name="classesFilterBox" BorderThickness="1" BorderBrush="Black" Width="200" Margin="0, 5, 0, 5" >
-									</ComboBox>
+                                    </ComboBox>
 								</Grid>
 							</Grid>
-                            <Grid Grid.Row="1" Margin="0, 15, 0, 0" >
-								<Grid RowDefinitions="Auto, *">
-									<Grid Width="525" Margin="0, 0, 0, 0" HorizontalAlignment="Left" Grid.Row="0" Height="30" ColumnDefinitions="*, *, *">
-										<TextBlock HorizontalAlignment="Center" Grid.Column="0">Название</TextBlock>
+									<Grid Grid.Row="1" Margin="0, 18, 0, 0" Height="30" ColumnDefinitions="*, *, *">
+										<TextBlock HorizontalAlignment="Right" Grid.Column="0">Название</TextBlock>
 										<TextBlock Margin="0, 0, 40, 0" HorizontalAlignment="Center" Grid.Column="1">Курс</TextBlock>
-										<TextBlock Grid.Column="2">Количество мест</TextBlock>
+										<TextBlock HorizontalAlignment="Left" Grid.Column="2">Количество мест</TextBlock>
 									</Grid>
-									<ListBox Width="550" Grid.Row="1" HorizontalAlignment="Left" x:Name="classesBox" Margin="0, 0, 0, 10" Background="White" BorderBrush="Gray" BorderThickness="1" >
+                                    <Grid Grid.Row="2">
+									<ListBox x:Name="classesBox" Margin="0, 0, 0, 10" Background="White" BorderBrush="Gray" BorderThickness="1" >
 									</ListBox>
-								</Grid>                            
-                            </Grid>
+                                    </Grid>
                         </Grid>
                     </TabItem>
                 </TabControl>
@@ -239,7 +237,7 @@
             </TabItem>
             <TabItem Header="Статистика">
                 <Grid>
-                    <lvc:CartesianChart  x:Name="chart" Title="{Binding Title}"  Series="{Binding Series}"></lvc:CartesianChart>
+                    <lvc:CartesianChart Margin="15" ZoomMode="X"  x:Name="chart" Title="{Binding Title}"></lvc:CartesianChart>
                 </Grid>
             </TabItem>       
             <TabItem Width="60" Margin="0, 7, 0, 7" IsEnabled="False" HorizontalAlignment="Right">

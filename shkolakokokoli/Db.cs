@@ -10,7 +10,7 @@ namespace shkolakokokoli;
 
 public static class Db
 {
-    static bool s = false;
+    static bool s = true;
     static string const1 = "server = 10.10.1.24; uid=user_01;pwd=user01pro;database=pro1_6";
     static string const2 = "server = localhost; uid=user;pwd=qwerty228;database=world";
 
@@ -418,7 +418,7 @@ public static class Db
         command.ExecuteNonQuery();
 
         List<int> prevClientsId = new List<int>();
-        command = new MySqlCommand("select * from Сlient_on_class where class_id = @id", connection);
+        command = new MySqlCommand("select * from Client_on_class where class_id = @id", connection);
         command.Parameters.AddWithValue("@id", group.id);
         MySqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
@@ -428,7 +428,7 @@ public static class Db
 
         reader.Close();
 
-        command = new MySqlCommand("insert into Сlient_on_class (client_id, class_id) value (@cid, @clid)", connection);
+        command = new MySqlCommand("insert into Client_on_class (client_id, class_id) value (@cid, @clid)", connection);
 
         List<int> clientsToRemove = new List<int>();
         List<int> clientsToAdd = new List<int>();

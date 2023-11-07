@@ -10,11 +10,11 @@ namespace shkolakokokoli.Models
     {
         public DateTime date;
 
-        public int Date
+        public string Date
         {
             get
             {
-                return date.DayOfYear;
+                return new DateTime(date.Year, date.Month, date.Day).ToShortDateString();
             }
         }
 
