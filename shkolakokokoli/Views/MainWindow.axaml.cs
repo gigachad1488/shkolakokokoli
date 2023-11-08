@@ -862,7 +862,7 @@ public partial class MainWindow : Window
     {
         AddCPaymentWindow adw = new AddCPaymentWindow();
         adw.DataContext = this.DataContext;
-        adw.Closed += delegate { RefreshPayment(); };
+        adw.Closed += delegate { RefreshCPayment(); };
         adw.ShowDialog(this);
     }
 
@@ -918,7 +918,7 @@ public partial class MainWindow : Window
 
     public async void DeleteCPayment()
     {
-        int id = paymentsDataGrid.SelectedIndex;
+        int id = cpaymentsDataGrid.SelectedIndex;
         if (id != -1)
         {
             var mBox = MessageBoxManager.GetMessageBoxStandard("Удаление", "Удалить запись?", MsBox.Avalonia.Enums.ButtonEnum.YesNo);

@@ -888,10 +888,11 @@ public static class Db
             connection.Open();
         }
 
-        MySqlCommand command = new MySqlCommand("update client_payment set client = @cid, payment = @id, isPaid = @pd", connection);
+        MySqlCommand command = new MySqlCommand("update client_payment set client = @cid, payment = @id, isPaid = @pd where id = @i", connection);
         command.Parameters.AddWithValue("@id", cpayment.payment.id);
         command.Parameters.AddWithValue("@cid", cpayment.client.id);
         command.Parameters.AddWithValue("@pd", cpayment.isPaid);
+        command.Parameters.AddWithValue("@i", cpayment.id);
         command.ExecuteNonQuery();
         connection.Close();
     }
